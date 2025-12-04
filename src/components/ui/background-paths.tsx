@@ -59,12 +59,13 @@ export function BackgroundPaths({
     const words = title.split(" ");
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-950">
+        <div className="relative min-h-screen w-full flex flex-col overflow-hidden bg-white dark:bg-neutral-950">
             <div className="absolute inset-0">
                 <FloatingPaths position={1} />
                 <FloatingPaths position={-1} />
             </div>
-            <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+            <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-neutral-950 dark:via-neutral-950/80 pointer-events-none z-10" />
+            <div className="relative z-10 container mx-auto px-4 md:px-6 flex-1 flex items-center justify-center text-center">
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
