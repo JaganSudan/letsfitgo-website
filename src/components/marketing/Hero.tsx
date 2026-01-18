@@ -89,7 +89,7 @@ export function HeroSection() {
 const AppComponent = () => {
   return (
     <img 
-      src="/app-screenshot.png" 
+      src="/Untitled design (11).png" 
       alt="LFG App Screenshot"
       className="w-full h-auto rounded-[1rem] object-cover"
     />
@@ -236,7 +236,7 @@ const AppBenefits = () => {
         features={appBenefits}
         title="Why Choose Let's Fit Go"
         autoPlayInterval={4000}
-        staticImage="/exemplar lfg.png"
+        staticImage="/examples.png"
       />
     </section>
   );
@@ -251,7 +251,7 @@ const NotificationFeature = () => {
             {/* Image on LEFT */}
             <div className="order-1 md:order-1 relative h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg">
               <Image
-                src="/notificationexample.png"
+                src="/notiexample.png"
                 alt="Push notifications example"
                 className="w-full h-full object-contain"
                 width={1000}
@@ -278,7 +278,7 @@ const NotificationFeature = () => {
 const Logo = ({ className }: { className?: string }) => {
   return (
     <img 
-      src="/lfglogoblue.png" 
+      src="/Untitled design (9).png" 
       alt="LFG Logo" 
       className={cn('h-8 w-auto', className)}
     />

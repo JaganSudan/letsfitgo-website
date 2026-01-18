@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   creator: "Let's Fit Go",
   publisher: "Let's Fit Go",
   icons: {
-    icon: "/lfgappicon.png",
-    apple: "/lfgappicon.png",
+    icon: "/lfgappicongradient.png",
+    apple: "/lfgappicongradient.png",
   },
   openGraph: {
     type: "website",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: "Challenge friends to fitness competitions, track your workouts, and climb the leaderboard. Make fitness fun and social!",
     images: [
       {
-        url: "/lfgappicon.png",
+        url: "/lfgappicongradient.png",
         width: 512,
         height: 512,
         alt: "Let's Fit Go App Icon",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Let's Fit Go - Fitness Challenges with Friends",
     description: "Challenge friends to fitness competitions, track your workouts, and climb the leaderboard!",
-    images: ["/lfgappicon.png"],
+    images: ["/lfgappicongradient.png"],
   },
   robots: {
     index: true,
