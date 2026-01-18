@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import AppStoreButtons from '@/components/AppStoreButtons';
 import { FeatureSteps } from '@/components/ui/feature-section';
+import { motion } from 'framer-motion';
 
 const transitionVariants = {
   item: {
@@ -121,7 +122,10 @@ const HeroHeader = () => {
         data-state={menuState && 'active'}
         className="fixed group z-20 w-full px-2"
       >
-        <div
+        <motion.div
+          initial={{ opacity: 0, filter: 'blur(12px)', y: -12 }}
+          animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+          transition={{ type: 'spring', bounce: 0.3, duration: 1.5 }}
           className={cn(
             'mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12',
             isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5'
@@ -202,7 +206,7 @@ const HeroHeader = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </nav>
     </header>
   );
@@ -244,8 +248,8 @@ const AppBenefits = () => {
 
 const NotificationFeature = () => {
   return (
-    <section className="bg-background pb-8 md:pb-2">
-      <div className="p-8 md:p-12">
+    <section className="bg-background pb-8 md:pb-2 -mt-8 md:mt-0">
+      <div className="p-4 pt-0 md:p-12">
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-10 items-center">
             {/* Image on LEFT */}
@@ -257,7 +261,7 @@ const NotificationFeature = () => {
                 width={1000}
                 height={800}
               />
-              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-background from-0% via-background/80 via-30% to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-background from-0% via-background/90 via-40% to-transparent" />
             </div>
             {/* Text on RIGHT */}
             <div className="order-2 md:order-2">
