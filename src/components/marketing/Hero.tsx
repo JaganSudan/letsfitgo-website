@@ -255,7 +255,7 @@ const NotificationFeature = () => {
             {/* Image on LEFT */}
             <div className="order-1 md:order-1 relative h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg">
               <Image
-                src="/notiexample.png"
+                src="/2.png"
                 alt="Push notifications example"
                 className="w-full h-full object-contain"
                 width={1000}
