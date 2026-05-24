@@ -54,9 +54,12 @@ const steps: Step[] = [
   },
 ];
 
+const phoneAspectRatio = '590 / 1278';
+
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
   const active = steps[activeStep];
+  const ActiveIcon = active.icon;
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -142,68 +145,122 @@ export default function HowItWorks() {
 
           <div className="flex min-h-[560px] items-center justify-center">
             <div className="flex h-full items-center justify-center">
-              <StepVisual step={active} priority />
+              <StepVisual activeStep={activeStep} priority />
             </div>
           </div>
         </div>
 
-        <div className="mt-10 space-y-8 md:hidden">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-
-            return (
-              <article
-                key={step.title}
-                className="relative isolate overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white p-[1px] shadow-[0_24px_70px_-50px_rgba(15,23,42,0.58)] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.15)_0%,rgba(0,234,255,0.12)_18%,rgba(255,255,255,0.96)_48%,rgba(255,255,255,1)_100%)]"
-              >
-                <div className="relative z-10 overflow-hidden rounded-[1.32rem] bg-white/95 p-5 before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.11)_0%,rgba(0,234,255,0.1)_22%,rgba(255,255,255,0.84)_54%,transparent_80%)]">
-                  <div className="relative flex items-stretch gap-4">
-                    <div className="flex min-h-[112px] w-20 shrink-0 items-center justify-center rounded-2xl border border-[#00EAFF]/45 bg-[linear-gradient(135deg,rgba(0,145,255,0.07)_0%,rgba(0,234,255,0.08)_22%,#ffffff_62%,#f8fafc_100%)] text-[#0091FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_14px_34px_-30px_rgba(0,145,255,0.6)]">
-                      <Icon className="h-8 w-8" strokeWidth={1.8} />
-                    </div>
-                    <div className="flex min-h-[112px] flex-1 flex-col justify-center">
-                      <p className="bg-[linear-gradient(135deg,#0091FF,#00EAFF)] bg-clip-text text-[0.68rem] font-medium uppercase tracking-[0.24em] text-transparent">
-                        Step {index + 1}
-                      </p>
-                      <h3 className="mt-2 text-2xl font-medium leading-tight tracking-normal text-gray-950">
-                        {step.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-6 text-gray-600">{step.description}</p>
-                    </div>
-                  </div>
-                  <div className="relative mt-6 flex justify-center">
-                    <StepVisual step={step} />
-                  </div>
+        <article
+          aria-label="How it works steps"
+          aria-roledescription="carousel"
+          className="relative isolate mt-10 overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white p-[1px] shadow-[0_24px_70px_-50px_rgba(15,23,42,0.58)] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.15)_0%,rgba(0,234,255,0.12)_18%,rgba(255,255,255,0.96)_48%,rgba(255,255,255,1)_100%)] md:hidden"
+        >
+          <div className="relative z-10 overflow-hidden rounded-[1.32rem] bg-white/95 p-5 before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.11)_0%,rgba(0,234,255,0.1)_22%,rgba(255,255,255,0.84)_54%,transparent_80%)] sm:p-6">
+            <div className="pointer-events-none absolute -right-16 -top-20 h-44 w-44 rounded-full bg-[#00EAFF]/20 blur-3xl" />
+            <div key={active.title} className="relative animate-in fade-in slide-in-from-bottom-2 duration-500 motion-reduce:animate-none">
+              <div className="flex items-start gap-4">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-[#00EAFF]/45 bg-[linear-gradient(135deg,rgba(0,145,255,0.07)_0%,rgba(0,234,255,0.08)_22%,#ffffff_62%,#f8fafc_100%)] text-[#0091FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_14px_34px_-30px_rgba(0,145,255,0.6)]">
+                  <ActiveIcon className="h-8 w-8" strokeWidth={1.8} />
                 </div>
-              </article>
-            );
-          })}
-        </div>
+                <div className="min-w-0 flex-1 pt-1">
+                  <p className="bg-[linear-gradient(135deg,#0091FF,#00EAFF)] bg-clip-text text-[0.68rem] font-medium uppercase tracking-[0.24em] text-transparent">
+                    Step {activeStep + 1}
+                  </p>
+                  <h3 className="mt-2 text-2xl font-medium leading-tight tracking-normal text-gray-950">
+                    {active.title}
+                  </h3>
+                </div>
+              </div>
+              <p className="mt-4 min-h-[3rem] text-sm leading-6 text-gray-600">{active.description}</p>
+            </div>
+
+            <div className="relative mt-6 flex justify-center">
+              <StepVisual activeStep={activeStep} className="max-w-[230px] sm:max-w-[250px]" />
+            </div>
+
+            <div className="relative mt-6 flex items-center justify-center gap-2" role="group" aria-label="Choose a step">
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                const isActive = index === activeStep;
+
+                return (
+                  <button
+                    key={step.title}
+                    type="button"
+                    aria-current={isActive ? 'step' : undefined}
+                    aria-label={`Show step ${index + 1}: ${step.title}`}
+                    onClick={() => setActiveStep(index)}
+                    className={cn(
+                      'flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0091FF] focus-visible:ring-offset-2',
+                      isActive
+                        ? 'border-transparent bg-[linear-gradient(135deg,#0091FF,#00EAFF)] text-white shadow-[0_16px_36px_-24px_rgba(0,145,255,0.85)]'
+                        : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:text-gray-950'
+                    )}
+                  >
+                    <Icon className="h-5 w-5" strokeWidth={1.9} />
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="relative mt-4 grid grid-cols-3 gap-2" aria-hidden="true">
+              {steps.map((step, index) => (
+                <span
+                  key={step.title}
+                  className={cn(
+                    'h-1 rounded-full bg-gray-200 transition-colors duration-300',
+                    index === activeStep && 'bg-[linear-gradient(135deg,#0091FF,#00EAFF)]'
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   );
 }
 
-function StepVisual({ step, priority = false }: { step: Step; priority?: boolean }) {
+function StepVisual({
+  activeStep,
+  priority = false,
+  className,
+}: {
+  activeStep: number;
+  priority?: boolean;
+  className?: string;
+}) {
   return (
-    <PhoneFrame>
-      <Image
-        src={step.image.src}
-        alt={step.image.alt}
-        width={step.image.width}
-        height={step.image.height}
-        priority={priority}
-        unoptimized
-        sizes="(min-width: 1024px) 300px, 280px"
-        className="h-auto w-full select-none brightness-[1.03] contrast-[1.04] saturate-[1.08]"
-      />
+    <PhoneFrame className={className}>
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: phoneAspectRatio }}>
+        {steps.map((step, index) => {
+          const isActive = index === activeStep;
+
+          return (
+            <Image
+              key={step.image.src}
+              src={step.image.src}
+              alt={isActive ? step.image.alt : ''}
+              aria-hidden={!isActive}
+              fill
+              priority={priority && index === 0}
+              unoptimized
+              sizes="(min-width: 1024px) 300px, (min-width: 640px) 250px, 230px"
+              className={cn(
+                'absolute inset-0 h-full w-full select-none object-cover brightness-[1.03] contrast-[1.04] saturate-[1.08] transition-all duration-700 ease-out motion-reduce:transition-none',
+                isActive ? 'scale-100 opacity-100' : 'scale-[1.015] opacity-0'
+              )}
+            />
+          );
+        })}
+      </div>
     </PhoneFrame>
   );
 }
 
-function PhoneFrame({ children }: { children: ReactNode }) {
+function PhoneFrame({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className="leaderboard-phone-glow relative isolate w-full max-w-[280px] lg:max-w-[300px]">
+    <div className={cn('leaderboard-phone-glow relative isolate w-[280px] max-w-full lg:w-[300px] lg:max-w-[300px]', className)}>
       <div className="relative rounded-[38px] border-[9px] border-gray-950 bg-gray-950 shadow-2xl shadow-gray-900/20">
         <div className="pointer-events-none absolute inset-0 rounded-[29px] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_18px_55px_-34px_rgba(0,145,255,0.68),0_24px_70px_-42px_rgba(0,234,255,0.52),0_22px_62px_-48px_rgba(255,204,0,0.42)]" />
         <div className="absolute left-1/2 top-2.5 z-10 h-6 w-20 -translate-x-1/2 rounded-full bg-black" />
