@@ -147,37 +147,47 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        <div className="mt-10 space-y-8 md:hidden">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
+        <div className="mt-10 md:hidden">
+          <div
+            aria-label="How it works steps"
+            className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {steps.map((step, index) => {
+              const Icon = step.icon;
 
-            return (
-              <article
-                key={step.title}
-                className="relative isolate overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white p-[1px] shadow-[0_24px_70px_-50px_rgba(15,23,42,0.58)] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.15)_0%,rgba(0,234,255,0.12)_18%,rgba(255,255,255,0.96)_48%,rgba(255,255,255,1)_100%)]"
-              >
-                <div className="relative z-10 overflow-hidden rounded-[1.32rem] bg-white/95 p-5 before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.11)_0%,rgba(0,234,255,0.1)_22%,rgba(255,255,255,0.84)_54%,transparent_80%)]">
-                  <div className="relative flex items-stretch gap-4">
-                    <div className="flex min-h-[112px] w-20 shrink-0 items-center justify-center rounded-2xl border border-[#00EAFF]/45 bg-[linear-gradient(135deg,rgba(0,145,255,0.07)_0%,rgba(0,234,255,0.08)_22%,#ffffff_62%,#f8fafc_100%)] text-[#0091FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_14px_34px_-30px_rgba(0,145,255,0.6)]">
-                      <Icon className="h-8 w-8" strokeWidth={1.8} />
+              return (
+                <article
+                  key={step.title}
+                  className="relative isolate min-w-[calc(100vw-2rem)] snap-center overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white p-[1px] shadow-[0_24px_70px_-50px_rgba(15,23,42,0.58)] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.15)_0%,rgba(0,234,255,0.12)_18%,rgba(255,255,255,0.96)_48%,rgba(255,255,255,1)_100%)]"
+                >
+                  <div className="relative z-10 overflow-hidden rounded-[1.32rem] bg-white/95 p-5 before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(0,145,255,0.11)_0%,rgba(0,234,255,0.1)_22%,rgba(255,255,255,0.84)_54%,transparent_80%)]">
+                    <div className="relative flex items-start gap-3.5">
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-[#00EAFF]/45 bg-[linear-gradient(135deg,rgba(0,145,255,0.07)_0%,rgba(0,234,255,0.08)_22%,#ffffff_62%,#f8fafc_100%)] text-[#0091FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_14px_34px_-30px_rgba(0,145,255,0.6)]">
+                        <Icon className="h-6 w-6" strokeWidth={1.8} />
+                      </div>
+                      <div className="min-w-0 flex-1 pt-1">
+                        <p className="bg-[linear-gradient(135deg,#0091FF,#00EAFF)] bg-clip-text text-[0.68rem] font-medium uppercase tracking-[0.24em] text-transparent">
+                          Step {index + 1}
+                        </p>
+                        <h3 className="mt-2 text-2xl font-medium leading-tight tracking-normal text-gray-950">
+                          {step.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-6 text-gray-600">{step.description}</p>
+                      </div>
                     </div>
-                    <div className="flex min-h-[112px] flex-1 flex-col justify-center">
-                      <p className="bg-[linear-gradient(135deg,#0091FF,#00EAFF)] bg-clip-text text-[0.68rem] font-medium uppercase tracking-[0.24em] text-transparent">
-                        Step {index + 1}
-                      </p>
-                      <h3 className="mt-2 text-2xl font-medium leading-tight tracking-normal text-gray-950">
-                        {step.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-6 text-gray-600">{step.description}</p>
+                    <div className="relative mt-6 flex justify-center">
+                      <StepVisual step={step} />
                     </div>
                   </div>
-                  <div className="relative mt-6 flex justify-center">
-                    <StepVisual step={step} />
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+                </article>
+              );
+            })}
+          </div>
+          <div className="mt-1 flex justify-center gap-2" aria-hidden>
+            {steps.map((step) => (
+              <span key={step.title} className="h-1.5 w-6 rounded-full bg-[linear-gradient(135deg,#0091FF,#00EAFF,#FFFBEA,#FFCC00)] opacity-45" />
+            ))}
+          </div>
         </div>
       </div>
     </section>
