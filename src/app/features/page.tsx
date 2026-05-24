@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { Viewport } from 'next';
 import Link from 'next/link';
 import AppStoreButtons from '@/components/AppStoreButtons';
 import Features from '@/components/marketing/Features';
@@ -8,6 +9,10 @@ export const metadata: Metadata = {
   title: 'Features',
   description:
     "Explore Let's Fit Go features for wearable-first workout logging, fitness score, team and free-for-all leaderboards, and friend motivation alerts.",
+};
+
+export const viewport: Viewport = {
+  themeColor: '#effcff',
 };
 
 export default function FeaturesPage() {

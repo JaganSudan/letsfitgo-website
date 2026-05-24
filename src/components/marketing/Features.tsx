@@ -233,14 +233,10 @@ export default function Features() {
   const activeFeature = features.find((feature) => feature.id === activeFeatureId) ?? features[0];
 
   return (
-    <section className="relative isolate overflow-x-clip bg-white px-4 pb-20 pt-[calc(7rem+env(safe-area-inset-top))] sm:px-6 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-36">
+    <section className="relative isolate overflow-x-clip bg-[linear-gradient(180deg,#effcff_0%,#ffffff_34rem,#ffffff_100%)] px-4 pb-20 pt-[calc(7rem+env(safe-area-inset-top))] sm:px-6 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-36">
       <div
         aria-hidden
-        className="absolute inset-x-0 -top-40 bottom-0 -z-20 bg-[radial-gradient(rgba(0,145,255,0.12)_1px,transparent_1px)] [background-size:20px_20px]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 -top-32 -z-10 h-[36rem] bg-[radial-gradient(ellipse_at_top,rgba(0,234,255,0.18),rgba(255,255,255,0)_68%)]"
+        className="absolute inset-x-0 -top-[calc(8rem+env(safe-area-inset-top))] -z-10 h-[42rem] bg-[radial-gradient(ellipse_at_top,rgba(0,234,255,0.24),rgba(255,255,255,0)_70%)]"
       />
       <div
         aria-hidden
@@ -287,10 +283,6 @@ function MobileFeatureSection({ feature }: { feature: Feature }) {
 
   return (
     <article className="relative isolate min-w-0 max-w-full overflow-hidden rounded-[1.75rem] border border-gray-200/80 bg-white/88 p-3 shadow-[0_30px_90px_-58px_rgba(15,23,42,0.65)] backdrop-blur sm:p-6">
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(0,145,255,0.13)_1px,transparent_1px)] opacity-70 [background-size:18px_18px]"
-      />
       <div
         aria-hidden
         className="absolute bottom-0 right-0 -z-10 h-72 w-72 rounded-full bg-[#00EAFF]/15 blur-3xl"
@@ -414,10 +406,6 @@ function FeatureCanvas({ feature }: { feature: Feature }) {
     >
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(0,145,255,0.13)_1px,transparent_1px)] opacity-70 [background-size:18px_18px]"
-      />
-      <div
-        aria-hidden
         className="absolute inset-x-8 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-white to-transparent"
       />
       <div
@@ -508,10 +496,6 @@ function VisualStage({ feature, children }: { feature: Feature; children: ReactN
       aria-label={feature.visualLabel}
       className="relative mx-auto min-h-[430px] w-full max-w-[min(22rem,calc(100vw-4rem))] overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white/82 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[520px] sm:max-w-none sm:p-6"
     >
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(rgba(0,145,255,0.12)_1px,transparent_1px)] opacity-70 [background-size:18px_18px]"
-      />
       <svg
         aria-hidden
         className="absolute inset-0 hidden h-full w-full md:block"
