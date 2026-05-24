@@ -69,15 +69,6 @@
     }
   }
 
-  @keyframes mobile-step-progress {
-    from {
-      stroke-dashoffset: 75.4;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
   .leaderboard-phone-glow::before,
   .leaderboard-phone-glow::after {
     content: "";
@@ -122,28 +113,9 @@
     animation: leaderboard-phone-edge 6.5s ease-in-out infinite;
   }
 
-  .mobile-step-progress-ring {
-    animation: mobile-step-progress 3s linear forwards;
-  }
-
-  .leaderboard-phone-glow--compact::before {
-    inset: -0.75rem -0.65rem -0.15rem;
-    border-radius: 3rem;
-  }
-
-  .leaderboard-phone-glow--compact::after {
-    inset: -0.18rem;
-    border-radius: 2.65rem;
-    box-shadow:
-      0 0 16px rgba(0, 145, 255, 0.26),
-      0 0 24px rgba(0, 234, 255, 0.2),
-      0 0 18px rgba(255, 204, 0, 0.1);
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .leaderboard-phone-glow::before,
-    .leaderboard-phone-glow::after,
-    .mobile-step-progress-ring {
+    .leaderboard-phone-glow::after {
       animation: none;
     }
   }
