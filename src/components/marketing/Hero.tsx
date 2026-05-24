@@ -113,7 +113,7 @@ export const HeroHeader = () => {
     <header>
       <nav
         data-state={menuState && 'active'}
-        className="fixed group z-20 w-full px-2"
+        className="fixed group z-20 w-full px-2 pt-[env(safe-area-inset-top)]"
       >
         <motion.div
           initial={{ opacity: 0, filter: 'blur(12px)', y: -12 }}

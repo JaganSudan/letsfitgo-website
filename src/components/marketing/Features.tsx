@@ -233,14 +233,14 @@ export default function Features() {
   const activeFeature = features.find((feature) => feature.id === activeFeatureId) ?? features[0];
 
   return (
-    <section className="relative isolate overflow-hidden bg-white px-4 pb-20 pt-28 sm:px-6 lg:px-8 lg:pb-24 lg:pt-36">
+    <section className="relative isolate overflow-x-clip bg-white px-4 pb-20 pt-[calc(7rem+env(safe-area-inset-top))] sm:px-6 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-36">
       <div
         aria-hidden
-        className="absolute inset-0 -z-20 bg-[radial-gradient(rgba(0,145,255,0.12)_1px,transparent_1px)] [background-size:20px_20px]"
+        className="absolute inset-x-0 -top-40 bottom-0 -z-20 bg-[radial-gradient(rgba(0,145,255,0.12)_1px,transparent_1px)] [background-size:20px_20px]"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 -z-10 h-[28rem] bg-[radial-gradient(ellipse_at_top,rgba(0,234,255,0.18),rgba(255,255,255,0)_68%)]"
+        className="absolute inset-x-0 -top-32 -z-10 h-[36rem] bg-[radial-gradient(ellipse_at_top,rgba(0,234,255,0.18),rgba(255,255,255,0)_68%)]"
       />
       <div
         aria-hidden
@@ -260,12 +260,71 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start">
+        <MobileFeatureList />
+
+        <div className="mt-12 hidden min-w-0 gap-8 lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start">
           <FeatureTabs activeFeatureId={activeFeatureId} onSelect={setActiveFeatureId} />
           <FeatureCanvas feature={activeFeature} />
         </div>
       </div>
     </section>
+  );
+}
+
+function MobileFeatureList() {
+  return (
+    <div className="mt-10 space-y-7 lg:hidden">
+      {features.map((feature) => (
+        <MobileFeatureSection key={feature.id} feature={feature} />
+      ))}
+    </div>
+  );
+}
+
+function MobileFeatureSection({ feature }: { feature: Feature }) {
+  const Icon = feature.icon;
+  const Visual = visualRenderers[feature.id];
+
+  return (
+    <article className="relative isolate min-w-0 max-w-full overflow-hidden rounded-[1.75rem] border border-gray-200/80 bg-white/88 p-3 shadow-[0_30px_90px_-58px_rgba(15,23,42,0.65)] backdrop-blur sm:p-6">
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(0,145,255,0.13)_1px,transparent_1px)] opacity-70 [background-size:18px_18px]"
+      />
+      <div
+        aria-hidden
+        className="absolute bottom-0 right-0 -z-10 h-72 w-72 rounded-full bg-[#00EAFF]/15 blur-3xl"
+      />
+
+      <div className="flex min-w-0 items-start gap-3">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#00EAFF]/45 bg-white text-[#0091FF] shadow-[0_18px_40px_-30px_rgba(0,145,255,0.78)]">
+          <Icon className="h-6 w-6" strokeWidth={1.9} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-500">{feature.visualLabel}</p>
+          <h2 className="mt-2 text-[1.65rem] font-medium leading-tight text-gray-950">{feature.title}</h2>
+          <p className="mt-3 text-pretty text-sm leading-6 text-gray-600">{feature.description}</p>
+        </div>
+      </div>
+
+      <div className="mt-5 flex min-w-0 justify-center">
+        <Visual feature={feature} />
+      </div>
+
+      <div className="mt-4 space-y-2.5">
+        {feature.flow.map((step, index) => (
+          <div key={step.label} className="relative">
+            <FlowNode step={step} index={index} />
+            {index < feature.flow.length - 1 && (
+              <span
+                aria-hidden
+                className="absolute left-8 top-full h-2.5 w-px bg-gradient-to-b from-[#00EAFF]/70 to-[#0091FF]/35"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    </article>
   );
 }
 
@@ -277,7 +336,7 @@ function FeatureTabs({
   onSelect: (featureId: FeatureId) => void;
 }) {
   return (
-    <div className="relative lg:sticky lg:top-28">
+    <div className="relative min-w-0 lg:sticky lg:top-28">
       <div
         aria-hidden
         className="absolute bottom-4 left-0 top-4 hidden w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent lg:block"
@@ -351,7 +410,7 @@ function FeatureCanvas({ feature }: { feature: Feature }) {
       id={`feature-panel-${feature.id}`}
       role="tabpanel"
       aria-labelledby={`feature-tab-${feature.id}`}
-      className="relative isolate overflow-hidden rounded-[1.75rem] border border-gray-200/80 bg-white/88 p-3 shadow-[0_30px_90px_-58px_rgba(15,23,42,0.65)] backdrop-blur sm:p-6"
+      className="relative isolate min-w-0 max-w-full overflow-hidden rounded-[1.75rem] border border-gray-200/80 bg-white/88 p-3 shadow-[0_30px_90px_-58px_rgba(15,23,42,0.65)] backdrop-blur sm:p-6"
     >
       <div
         aria-hidden
@@ -367,14 +426,14 @@ function FeatureCanvas({ feature }: { feature: Feature }) {
       />
 
       <div key={feature.id} className="animate-in fade-in slide-in-from-bottom-2 duration-500 motion-reduce:animate-none">
-        <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#00EAFF]/45 bg-white text-[#0091FF] shadow-[0_18px_40px_-30px_rgba(0,145,255,0.78)]">
+        <div className="flex min-w-0 flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+          <div className="flex min-w-0 items-start gap-3 sm:gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#00EAFF]/45 bg-white text-[#0091FF] shadow-[0_18px_40px_-30px_rgba(0,145,255,0.78)] sm:h-12 sm:w-12">
               <Icon className="h-6 w-6" strokeWidth={1.9} />
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gray-500">{feature.visualLabel}</p>
-              <h2 className="mt-2 text-2xl font-medium leading-tight text-gray-950 sm:text-3xl">{feature.title}</h2>
+              <h2 className="mt-2 max-w-full text-pretty text-[1.65rem] font-medium leading-tight text-gray-950 sm:text-3xl">{feature.title}</h2>
             </div>
           </div>
 
@@ -391,7 +450,7 @@ function FeatureCanvas({ feature }: { feature: Feature }) {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:mt-7 sm:gap-5 xl:grid-cols-[0.84fr_1.16fr]">
+        <div className="mt-6 grid min-w-0 gap-4 sm:mt-7 sm:gap-5 xl:grid-cols-[0.84fr_1.16fr]">
           <div className="order-2 space-y-2.5 sm:space-y-3 xl:order-1">
             {feature.flow.map((step, index) => (
               <div key={step.label} className="relative">
@@ -406,7 +465,7 @@ function FeatureCanvas({ feature }: { feature: Feature }) {
             ))}
           </div>
 
-          <div className="order-1 flex justify-center xl:order-2">
+          <div className="order-1 flex min-w-0 justify-center xl:order-2">
             <Visual feature={feature} />
           </div>
         </div>
@@ -447,7 +506,7 @@ function VisualStage({ feature, children }: { feature: Feature; children: ReactN
   return (
     <div
       aria-label={feature.visualLabel}
-      className="relative mx-auto min-h-[430px] w-full max-w-[22rem] overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white/82 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[520px] sm:max-w-none sm:p-6"
+      className="relative mx-auto min-h-[430px] w-full max-w-[min(22rem,calc(100vw-4rem))] overflow-hidden rounded-[1.4rem] border border-gray-200/80 bg-white/82 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[520px] sm:max-w-none sm:p-6"
     >
       <div
         aria-hidden
@@ -499,7 +558,7 @@ function VisualStage({ feature, children }: { feature: Feature; children: ReactN
         </defs>
       </svg>
 
-      <div className="relative z-10 flex min-h-[404px] items-center justify-center py-4 sm:min-h-[488px] sm:py-6">
+      <div className="relative z-10 flex min-h-[404px] min-w-0 items-center justify-center py-4 sm:min-h-[488px] sm:py-6">
         {children}
       </div>
     </div>
@@ -548,7 +607,7 @@ function UpdatesVisual({ feature }: { feature: Feature }) {
 
 function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="leaderboard-phone-glow relative isolate mx-auto w-[206px] max-w-full sm:w-[270px] lg:w-[292px]">
+    <div className="leaderboard-phone-glow relative isolate mx-auto w-[206px] max-w-[calc(100vw-6rem)] sm:w-[270px] sm:max-w-full lg:w-[292px]">
       <div className="relative rounded-[32px] border-[7px] border-gray-950 bg-gray-950 shadow-2xl shadow-gray-900/20 sm:rounded-[34px] sm:border-[8px]">
         <div className="pointer-events-none absolute inset-0 rounded-[24px] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_18px_55px_-34px_rgba(0,145,255,0.68),0_24px_70px_-42px_rgba(0,234,255,0.52),0_22px_62px_-48px_rgba(255,204,0,0.42)] sm:rounded-[26px]" />
         <div className="absolute left-1/2 top-2 z-20 h-4 w-14 -translate-x-1/2 rounded-full bg-black sm:h-5 sm:w-16" />
