@@ -92,6 +92,7 @@ const AppComponent = () => {
 };
 
 const menuItems = [
+  { name: 'Features', href: '/features' },
   { name: 'How It Works', href: '/#how-it-works' },
   { name: 'Download', href: '/#download' },
 ];

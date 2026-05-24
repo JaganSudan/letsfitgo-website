@@ -178,32 +178,7 @@ export default function HowItWorks() {
               <StepVisual activeStep={activeStep} className="max-w-[230px] sm:max-w-[250px]" />
             </div>
 
-            <div className="relative mt-6 flex items-center justify-center gap-2" role="group" aria-label="Choose a step">
-              {steps.map((step, index) => {
-                const Icon = step.icon;
-                const isActive = index === activeStep;
-
-                return (
-                  <button
-                    key={step.title}
-                    type="button"
-                    aria-current={isActive ? 'step' : undefined}
-                    aria-label={`Show step ${index + 1}: ${step.title}`}
-                    onClick={() => setActiveStep(index)}
-                    className={cn(
-                      'flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0091FF] focus-visible:ring-offset-2',
-                      isActive
-                        ? 'border-transparent bg-[linear-gradient(135deg,#0091FF,#00EAFF)] text-white shadow-[0_16px_36px_-24px_rgba(0,145,255,0.85)]'
-                        : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:text-gray-950'
-                    )}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={1.9} />
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="relative mt-4 grid grid-cols-3 gap-2" aria-hidden="true">
+            <div className="relative mt-6 grid grid-cols-3 gap-2" aria-hidden="true">
               {steps.map((step, index) => (
                 <span
                   key={step.title}
