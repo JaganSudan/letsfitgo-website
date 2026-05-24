@@ -6,9 +6,7 @@ import { Button } from '@/components/ui/button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import Image from 'next/image';
 import AppStoreButtons from '@/components/AppStoreButtons';
-import { FeatureSteps } from '@/components/ui/feature-section';
 import { motion } from 'framer-motion';
 
 const transitionVariants = {
@@ -35,54 +33,50 @@ export function HeroSection() {
   return (
     <>
       <HeroHeader />
-      <main className="overflow-hidden">
-        <section>
-          <div className="relative mx-auto max-w-6xl px-6 pt-32 lg:pb-16 lg:pt-48">
-            <div className="relative z-10 mx-auto max-w-4xl text-center">
-              <AnimatedGroup
-                variants={{
-                  container: {
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.05,
-                        delayChildren: 0.75,
-                      },
+      <section className="overflow-hidden">
+        <div className="relative mx-auto max-w-6xl px-6 pt-32 lg:pb-16 lg:pt-48">
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
+            <AnimatedGroup
+              variants={{
+                container: {
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.05,
+                      delayChildren: 0.75,
                     },
                   },
-                  ...transitionVariants,
-                }}
+                },
+                ...transitionVariants,
+              }}
+            >
+              <h1 className="text-balance text-4xl font-medium sm:text-5xl md:text-6xl">
+                Fitness Challenges with Friends
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg">
+                Challenge friends, track your progress, and stay motivated with Let&apos;s Fit Go. Join fitness challenges and achieve your goals together.
+              </p>
+              <div className="mt-12 mx-auto max-w-sm">
+                <AppStoreButtons />
+              </div>
+              <div
+                aria-hidden
+                className="bg-radial from-primary/50 dark:from-primary/25 relative isolate mx-auto mt-32 max-w-2xl to-transparent to-55% text-left"
               >
-                <h1 className="text-balance text-4xl font-medium sm:text-5xl md:text-6xl">
-                  Fitness Challenges with Friends
-                </h1>
-                <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg">
-                  Challenge friends, track your progress, and stay motivated with Let&apos;s Fit Go. Join fitness challenges and achieve your goals together.
-                </p>
-                <div className="mt-12 mx-auto max-w-sm">
-                  <AppStoreButtons />
+                <div className="bg-background border-border/50 absolute inset-0 z-10 mx-auto w-80 -translate-x-3 -translate-y-12 rounded-[2rem] border p-2 [mask-image:linear-gradient(to_bottom,#000_50%,transparent_90%)] sm:-translate-x-6">
+                  <div className="relative h-96 overflow-hidden rounded-[1.5rem] border p-2 pb-12 before:absolute before:inset-0 before:bg-[repeating-linear-gradient(-45deg,var(--border),var(--border)_1px,transparent_1px,transparent_6px)] before:opacity-50"></div>
                 </div>
-                <div
-                  aria-hidden
-                  className="bg-radial from-primary/50 dark:from-primary/25 relative mx-auto mt-32 max-w-2xl to-transparent to-55% text-left"
-                >
-                  <div className="bg-background border-border/50 absolute inset-0 mx-auto w-80 -translate-x-3 -translate-y-12 rounded-[2rem] border p-2 [mask-image:linear-gradient(to_bottom,#000_50%,transparent_90%)] sm:-translate-x-6">
-                    <div className="relative h-96 overflow-hidden rounded-[1.5rem] border p-2 pb-12 before:absolute before:inset-0 before:bg-[repeating-linear-gradient(-45deg,var(--border),var(--border)_1px,transparent_1px,transparent_6px)] before:opacity-50"></div>
+                <div className="bg-muted dark:bg-background/50 border-border/50 relative z-20 mx-auto w-80 translate-x-4 rounded-[2rem] border p-2 backdrop-blur-3xl [mask-image:linear-gradient(to_bottom,#000_50%,transparent_90%)] sm:translate-x-8">
+                  <div className="bg-background space-y-2 overflow-hidden rounded-[1.5rem] border p-2 shadow-xl dark:bg-white/5 dark:shadow-black dark:backdrop-blur-3xl">
+                    <AppComponent />
+                    <div className="bg-muted rounded-[1rem] p-4 pb-16 dark:bg-white/5"></div>
                   </div>
-                  <div className="bg-muted dark:bg-background/50 border-border/50 mx-auto w-80 translate-x-4 rounded-[2rem] border p-2 backdrop-blur-3xl [mask-image:linear-gradient(to_bottom,#000_50%,transparent_90%)] sm:translate-x-8">
-                    <div className="bg-background space-y-2 overflow-hidden rounded-[1.5rem] border p-2 shadow-xl dark:bg-white/5 dark:shadow-black dark:backdrop-blur-3xl">
-                      <AppComponent />
-                      <div className="bg-muted rounded-[1rem] p-4 pb-16 dark:bg-white/5"></div>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] mix-blend-overlay [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] dark:opacity-5" />
                 </div>
-              </AnimatedGroup>
-            </div>
+                <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] mix-blend-overlay [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] dark:opacity-5" />
+              </div>
+            </AnimatedGroup>
           </div>
-        </section>
-        <AppBenefits />
-        <NotificationFeature />
-      </main>
+        </div>
+      </section>
     </>
   );
 }
@@ -90,7 +84,7 @@ export function HeroSection() {
 const AppComponent = () => {
   return (
     <img 
-      src="/Untitled design (11).png" 
+      src="/hero-leaderboard-cropped.png" 
       alt="LFG App Screenshot"
       className="w-full h-auto rounded-[1rem] object-cover"
     />
@@ -98,13 +92,11 @@ const AppComponent = () => {
 };
 
 const menuItems = [
-  { name: 'Features', href: '#features' },
-  { name: 'How It Works', href: '#how-it-works' },
-  { name: 'Download', href: '#download' },
-  { name: 'About', href: '#about' },
+  { name: 'How It Works', href: '/#how-it-works' },
+  { name: 'Download', href: '/#download' },
 ];
 
-const HeroHeader = () => {
+export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
 
@@ -181,7 +173,7 @@ const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && 'lg:hidden')}
                 >
-                  <Link href="#download">
+                  <Link href="/#download">
                     <span>Login</span>
                   </Link>
                 </Button>
@@ -190,7 +182,7 @@ const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && 'lg:hidden')}
                 >
-                  <Link href="#download">
+                  <Link href="/#download">
                     <span>Sign Up</span>
                   </Link>
                 </Button>
@@ -199,7 +191,7 @@ const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
                 >
-                  <Link href="#download">
+                  <Link href="/#download">
                     <span>Get Started</span>
                   </Link>
                 </Button>
@@ -212,79 +204,14 @@ const HeroHeader = () => {
   );
 };
 
-const appBenefits = [
-  { 
-    step: 'Step 1', 
-    title: 'Challenge Friends',
-    content: 'Create fitness challenges and invite friends to compete together.',
-    image: ''
-  },
-  { 
-    step: 'Step 2',
-    title: 'Track Progress',
-    content: 'Log workouts, monitor your score, and watch your fitness improve daily.',
-    image: ''
-  },
-  { 
-    step: 'Step 3',
-    title: 'Stay Motivated',
-    content: 'Climb leaderboards, earn achievements, and celebrate wins with your crew.',
-    image: ''
-  },
-];
-
-const AppBenefits = () => {
-  return (
-    <section className="bg-background pb-8 md:pb-2">
-      <FeatureSteps 
-        features={appBenefits}
-        title="Why Choose Let's Fit Go"
-        autoPlayInterval={4000}
-        staticImage="/examples.png"
-      />
-    </section>
-  );
-};
-
-const NotificationFeature = () => {
-  return (
-    <section className="bg-background pb-8 md:pb-2 -mt-8 md:mt-0">
-      <div className="p-4 pt-0 md:p-12">
-        <div className="max-w-7xl mx-auto w-full">
-          <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-10 items-center">
-            {/* Image on LEFT */}
-            <div className="order-1 md:order-1 relative h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg">
-              <Image
-                src="/2.png"
-                alt="Push notifications example"
-                className="w-full h-full object-contain"
-                width={1000}
-                height={800}
-              />
-              <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-background from-0% via-background/90 via-40% to-transparent" />
-            </div>
-            {/* Text on RIGHT */}
-            <div className="order-2 md:order-2">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Know When Your Friends Are Working Out
-              </h2>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Get push notifications when friends in your challenges start or complete workouts. Stay connected and motivated with real-time updates that keep you in the loop and encourage you to stay active alongside your friends.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const Logo = ({ className }: { className?: string }) => {
   return (
     <img 
       src="/Untitled design (9).png" 
       alt="LFG Logo" 
-      className={cn('h-8 w-auto', className)}
+      width={107}
+      height={32}
+      className={cn('h-8 w-auto max-w-[112px] object-contain', className)}
     />
   );
 };

@@ -12,25 +12,41 @@ function FloatingPaths({ position }: { position: number }) {
         } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
             684 - i * 5 * position
         } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-        color: `rgba(15,23,42,${0.1 + i * 0.03})`,
+        opacity: Math.min(0.12 + i * 0.018, 0.62),
         width: 0.5 + i * 0.03,
     }));
 
     return (
         <div className="absolute inset-0 pointer-events-none">
             <svg
-                className="w-full h-full text-blue-600 dark:text-blue-400"
+                className="w-full h-full"
                 viewBox="0 0 696 316"
                 fill="none"
             >
                 <title>Background Paths</title>
+                <defs>
+                    <linearGradient
+                        id={`flowing-path-gradient-${position > 0 ? "right" : "left"}`}
+                        x1="0"
+                        y1="0"
+                        x2="1"
+                        y2="0"
+                    >
+                        <stop offset="0%" stopColor="#0091FF" />
+                        <stop offset="26%" stopColor="#00EAFF" />
+                        <stop offset="50%" stopColor="#FFFBEA" />
+                        <stop offset="68%" stopColor="#FFCC00" />
+                        <stop offset="84%" stopColor="#00EAFF" />
+                        <stop offset="100%" stopColor="#0091FF" />
+                    </linearGradient>
+                </defs>
                 {paths.map((path) => (
                     <motion.path
                         key={path.id}
                         d={path.d}
-                        stroke="currentColor"
+                        stroke={`url(#flowing-path-gradient-${position > 0 ? "right" : "left"})`}
                         strokeWidth={path.width}
-                        strokeOpacity={0.1 + path.id * 0.03}
+                        strokeOpacity={path.opacity}
                         initial={{ pathLength: 0.3, opacity: 0.6 }}
                         animate={{
                             pathLength: 1,
