@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import Image from 'next/image';
 import AppStoreButtons from '@/components/AppStoreButtons';
-import { motion } from 'framer-motion';
 
 const transitionVariants = {
   item: {
@@ -83,9 +83,13 @@ export function HeroSection() {
 
 const AppComponent = () => {
   return (
-    <img 
-      src="/hero-leaderboard-cropped.png" 
+    <Image
+      src="/hero-leaderboard-cropped.png"
       alt="LFG App Screenshot"
+      width={590}
+      height={829}
+      unoptimized
+      sizes="320px"
       className="w-full h-auto rounded-[1rem] object-cover"
     />
   );
@@ -105,6 +109,7 @@ export const HeroHeader = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -115,10 +120,7 @@ export const HeroHeader = () => {
         data-state={menuState && 'active'}
         className="fixed group z-20 w-full px-2 pt-[env(safe-area-inset-top)]"
       >
-        <motion.div
-          initial={{ opacity: 0, filter: 'blur(12px)', y: -12 }}
-          animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-          transition={{ type: 'spring', bounce: 0.3, duration: 1.5 }}
+        <div
           className={cn(
             'mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12',
             isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5'
@@ -199,7 +201,7 @@ export const HeroHeader = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </nav>
     </header>
   );
@@ -207,11 +209,14 @@ export const HeroHeader = () => {
 
 const Logo = ({ className }: { className?: string }) => {
   return (
-    <img 
-      src="/Untitled design (9).png" 
-      alt="LFG Logo" 
+    <Image
+      src="/Untitled design (9).png"
+      alt="LFG Logo"
       width={107}
       height={32}
+      priority
+      unoptimized
+      sizes="112px"
       className={cn('h-8 w-auto max-w-[112px] object-contain', className)}
     />
   );
