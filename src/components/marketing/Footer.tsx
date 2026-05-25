@@ -20,6 +20,11 @@ export default function Footer() {
             <h4 className="text-gray-900 font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
               <li>
+                <Link href="/docs" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  Docs
+                </Link>
+              </li>
+              <li>
                 <Link href="/privacy" className="text-gray-600 hover:text-blue-600 transition-colors">
                   Privacy Policy
                 </Link>
@@ -72,5 +77,4 @@ export default function Footer() {
     </footer>
   );
 }
-
 

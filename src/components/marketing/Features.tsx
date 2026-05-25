@@ -462,6 +462,24 @@ function FeatureCanvas({ feature }: { feature: Feature }) {
   );
 }
 
+const flowIconTreatments = [
+  {
+    frame: 'bg-[linear-gradient(135deg,#FFFFFF_0%,#FFF4A3_42%,#FFD735_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_14px_34px_-24px_rgba(255,215,53,0.7)]',
+    surface: 'bg-[linear-gradient(135deg,#FFFFFF_0%,#FFF9D8_44%,#FFD735_100%)]',
+    icon: 'text-[#1f2937]',
+  },
+  {
+    frame: 'bg-[linear-gradient(135deg,#FFFFFF_0%,#00EAFF_38%,#0091FF_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.68),0_14px_34px_-24px_rgba(0,145,255,0.82)]',
+    surface: 'bg-[linear-gradient(135deg,#0091FF_0%,#00BFFF_48%,#00EAFF_100%)]',
+    icon: 'text-white',
+  },
+  {
+    frame: 'bg-[linear-gradient(135deg,#FFFFFF_0%,#9A9A9A_42%,#000000_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_14px_34px_-24px_rgba(0,0,0,0.7)]',
+    surface: 'bg-[linear-gradient(135deg,#000000_0%,#333333_48%,#9A9A9A_100%)]',
+    icon: 'text-white',
+  },
+] as const;
+
 function FlowNode({
   step,
   index,
@@ -470,13 +488,20 @@ function FlowNode({
   index: number;
 }) {
   const Icon = step.icon;
+  const iconTreatment = flowIconTreatments[index % flowIconTreatments.length];
 
   return (
     <article className="relative z-10 overflow-hidden rounded-2xl border border-white/65 bg-white/52 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.94),inset_0_-1px_0_rgba(255,255,255,0.52),0_20px_52px_-38px_rgba(15,23,42,0.72),0_10px_30px_-24px_rgba(0,145,255,0.5)] backdrop-blur-xl before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_18%_12%,rgba(255,255,255,0.86),transparent_34%),linear-gradient(135deg,rgba(0,145,255,0.1),rgba(0,234,255,0.08)_42%,rgba(255,204,0,0.08)_100%)] before:opacity-95 after:pointer-events-none after:absolute after:inset-0 after:rounded-2xl after:bg-[linear-gradient(135deg,rgba(255,255,255,0.55)_0%,transparent_28%,rgba(255,255,255,0.18)_100%)] sm:p-4">
       <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
       <div className="relative flex gap-3 sm:gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#00EAFF]/35 bg-white/70 text-[#0091FF] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_12px_30px_-24px_rgba(0,145,255,0.85)] backdrop-blur-xl sm:h-12 sm:w-12">
-          <Icon className="h-5 w-5" strokeWidth={1.9} />
+        <div className={cn('h-10 w-10 shrink-0 rounded-xl p-[1px] sm:h-12 sm:w-12', iconTreatment.frame)}>
+          <div className={cn('relative flex h-full w-full items-center justify-center overflow-hidden rounded-[0.7rem] sm:rounded-[0.8rem]', iconTreatment.surface)}>
+            <span
+              aria-hidden
+              className="absolute inset-x-1 top-1 h-1/2 rounded-full bg-white/28 blur-sm"
+            />
+            <Icon className={cn('relative h-5 w-5 drop-shadow-[0_1px_1px_rgba(0,0,0,0.16)]', iconTreatment.icon)} strokeWidth={2.05} />
+          </div>
         </div>
         <div className="min-w-0">
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-500">
