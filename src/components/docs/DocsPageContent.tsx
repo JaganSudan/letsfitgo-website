@@ -534,6 +534,19 @@ const pageSections = [
   { id: 'support', label: 'Support' },
 ];
 
+function getGuideSearchText(guide: PopularGuide) {
+  return [
+    guide.title,
+    guide.description,
+    guide.shortAnswer,
+    guide.whenToUse,
+    ...guide.steps,
+    guide.next,
+    ...guide.commonIssues.flatMap((issue) => [issue.issue, issue.fix]),
+    ...guide.related,
+  ].join(' ');
+}
+
 export default function DocsPageContent() {
   const [query, setQuery] = useState('');
   const [activeSectionId, setActiveSectionId] = useState('overview');
@@ -563,11 +576,7 @@ export default function DocsPageContent() {
   const filteredGuides = useMemo(() => {
     if (!normalizedQuery) return popularGuides;
 
-    return popularGuides.filter((guide) =>
-      `${guide.title} ${guide.description} ${guide.shortAnswer} ${guide.related.join(' ')}`
-        .toLowerCase()
-        .includes(normalizedQuery)
-    );
+    return popularGuides.filter((guide) => getGuideSearchText(guide).toLowerCase().includes(normalizedQuery));
   }, [normalizedQuery]);
 
   const hasResults = filteredCategories.length > 0 || filteredGuides.length > 0;
@@ -585,7 +594,7 @@ export default function DocsPageContent() {
       Array.from(
         new Set([
           ...visiblePageSections.map((section) => section.id),
-          ...filteredCategories.map((category) => category.id),
+          ...filteredCategories.map((category) => `category-${category.id}`),
           ...filteredGuides.map((guide) => `guide-${guide.id}`),
         ])
       ),
@@ -595,9 +604,29 @@ export default function DocsPageContent() {
     ? activeSectionId
     : activeSectionId.startsWith('guide-')
       ? 'guide-answers'
-      : categories.some((category) => category.id === activeSectionId)
+      : activeSectionId.startsWith('category-')
         ? 'categories'
         : activeSectionId;
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 'k') return;
+
+      event.preventDefault();
+
+      const searchInputId = window.matchMedia('(min-width: 1024px)').matches
+        ? 'docs-desktop-search'
+        : 'docs-mobile-search';
+      const searchInput = document.getElementById(searchInputId) as HTMLInputElement | null;
+
+      searchInput?.focus();
+      searchInput?.select();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const visibleSections = observedSectionIds
@@ -908,10 +937,10 @@ function DocsSidebar({
             {filteredCategories.map((category) => (
               <SidebarLink
                 key={category.id}
-                href={`#${category.id}`}
+                href={`#category-${category.id}`}
                 label={category.title}
                 icon={category.icon}
-                active={activeSectionId === category.id}
+                active={activeSectionId === `category-${category.id}`}
               />
             ))}
           </div>
@@ -1199,7 +1228,7 @@ function CategoryCard({ category }: { category: DocsCategory }) {
   const Icon = category.icon;
 
   return (
-    <article id={category.id} className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <article id={`category-${category.id}`} className="scroll-mt-24 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
       <div className="flex items-start gap-3">
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-gray-950 text-white">
           <Icon className="h-5 w-5" aria-hidden="true" />

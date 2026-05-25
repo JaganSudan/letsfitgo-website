@@ -233,10 +233,10 @@ export default function Features() {
   const activeFeature = features.find((feature) => feature.id === activeFeatureId) ?? features[0];
 
   return (
-    <section className="relative isolate overflow-x-clip bg-[linear-gradient(180deg,#effcff_0%,#ffffff_34rem,#ffffff_100%)] px-4 pb-20 pt-[calc(7rem+env(safe-area-inset-top))] sm:px-6 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-36">
+    <section className="relative isolate overflow-x-clip bg-white px-4 pb-20 pt-[calc(7rem+env(safe-area-inset-top))] sm:bg-[linear-gradient(180deg,#effcff_0%,#ffffff_34rem,#ffffff_100%)] sm:px-6 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-36">
       <div
         aria-hidden
-        className="absolute inset-x-0 -top-[calc(8rem+env(safe-area-inset-top))] -z-10 h-[42rem] bg-[radial-gradient(ellipse_at_top,rgba(0,234,255,0.24),rgba(255,255,255,0)_70%)]"
+        className="absolute inset-x-0 top-[4.5rem] -z-10 h-[50rem] bg-[radial-gradient(ellipse_115%_60%_at_50%_56%,rgba(0,234,255,0.12)_0%,rgba(239,252,255,0.58)_48%,rgba(239,252,255,0.2)_68%,rgba(255,255,255,0)_100%)] sm:-top-[calc(8rem+env(safe-area-inset-top))] sm:h-[42rem] sm:bg-[radial-gradient(ellipse_at_top,rgba(0,234,255,0.24),rgba(255,255,255,0)_70%)]"
       />
       <div
         aria-hidden

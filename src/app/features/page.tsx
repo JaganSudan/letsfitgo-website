@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#effcff',
+  themeColor: '#ffffff',
 };
 
 export default function FeaturesPage() {
