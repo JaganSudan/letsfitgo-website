@@ -249,7 +249,7 @@ export default function Features() {
             Features
           </p>
           <h1 className="mt-4 text-balance text-4xl font-medium tracking-normal text-gray-950 sm:text-5xl md:text-6xl">
-            Social fitness features that keep friends moving
+            Social fitness that keeps you moving
           </h1>
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-gray-600">
             LFG turns workouts into shared challenges, visible points, and live updates so people can stay accountable together.
