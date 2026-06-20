@@ -855,13 +855,13 @@ export default function DocsPageContent() {
             <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-300">
               Tell us what you were trying to do, the challenge name, and what you expected to see. Use demo screenshots only when sharing examples.
             </p>
-            <a
-              href="mailto:support@letsfitgo.com"
+            <Link
+              href="/support"
               className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-semibold text-gray-950 transition-colors hover:bg-[#dff6ff]"
             >
               <LifeBuoy className="h-4 w-4" aria-hidden="true" />
-              support@letsfitgo.com
-            </a>
+              Contact support
+            </Link>
           </div>
         </section>
       </article>

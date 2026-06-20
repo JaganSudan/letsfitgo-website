@@ -42,13 +42,18 @@ export default function Footer() {
             <h4 className="text-gray-900 font-semibold mb-4">Contact</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  Contact Us
+                <Link href="/support" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  Support
                 </Link>
               </li>
               <li>
-                <a href="mailto:support@letsfitgo.com" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  support@letsfitgo.com
+                <a href="mailto:jagan.sudan@letsfitgo.com" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  jagan.sudan@letsfitgo.com
+                </a>
+              </li>
+              <li>
+                <a href="tel:02040052976" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  02040052976
                 </a>
               </li>
             </ul>
@@ -77,4 +82,3 @@ export default function Footer() {
     </footer>
   );
 }
-

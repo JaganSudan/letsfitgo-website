@@ -164,7 +164,7 @@ export default function PrivacyPolicyPage() {
               <li><strong>Opt-Out:</strong> Opt out of certain data collection or marketing communications</li>
             </ul>
             <p className="text-gray-700 leading-relaxed">
-              To exercise these rights, please contact us at <a href="mailto:support@letsfitgo.com" className="text-blue-600 hover:text-blue-700">support@letsfitgo.com</a>.
+              To exercise these rights, please contact us at <a href="mailto:jagan.sudan@letsfitgo.com" className="text-blue-600 hover:text-blue-700">jagan.sudan@letsfitgo.com</a>.
             </p>
           </section>
 
@@ -196,7 +196,10 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="bg-gray-50 p-6 rounded-lg">
               <p className="text-gray-700">
-                <strong>Email:</strong> <a href="mailto:support@letsfitgo.com" className="text-blue-600 hover:text-blue-700">support@letsfitgo.com</a>
+                <strong>Email:</strong> <a href="mailto:jagan.sudan@letsfitgo.com" className="text-blue-600 hover:text-blue-700">jagan.sudan@letsfitgo.com</a>
+              </p>
+              <p className="text-gray-700 mt-2">
+                <strong>Phone:</strong> <a href="tel:02040052976" className="text-blue-600 hover:text-blue-700">02040052976</a>
               </p>
               <p className="text-gray-700 mt-2">
                 <strong>Website:</strong> <Link href="/" className="text-blue-600 hover:text-blue-700">letsfitgo.com</Link>
@@ -214,5 +217,4 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
-
 
