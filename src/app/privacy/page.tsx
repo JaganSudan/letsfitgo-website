@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-gray-600 mb-8">
-            <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            <strong>Last Updated:</strong> August 23, 2026
           </p>
 
           <section className="mb-12">
@@ -45,10 +45,16 @@ export default function PrivacyPolicyPage() {
             
             <h4 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Apple HealthKit / Apple Watch</h4>
             <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
-              <li>Activity data (steps, distance, active energy)</li>
-              <li>Workout data (type, duration, calories burned)</li>
-              <li>Heart rate data</li>
-              <li>Other health metrics you authorize</li>
+              <li>Workout records, including workout type, start time, end time, and duration</li>
+              <li>Active energy burned for imported workouts</li>
+            </ul>
+
+            <h4 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Health Connect on Android</h4>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
+              <li>Exercise sessions and workout records</li>
+              <li>Distance and active calories associated with imported workouts</li>
+              <li>Workout heart rate data</li>
+              <li>Weight data that you authorize Health Connect to share</li>
             </ul>
 
             <h4 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Garmin Connect</h4>
@@ -125,6 +131,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-gray-900 mb-3 mt-6">5.1 Wearable Device Integrations</h3>
             <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
               <li><strong>Apple HealthKit:</strong> We access health and fitness data from your Apple devices. You control which data types to share through your iOS settings.</li>
+              <li><strong>Health Connect:</strong> We access the Android health and fitness data types listed above only after you connect Health Connect and grant access. You can review or revoke access in Health Connect settings.</li>
               <li><strong>Garmin Connect:</strong> We access your Garmin activity, health, and wellness data through the Garmin Connect API. Your use of Garmin services is also subject to Garmin&apos;s Privacy Policy.</li>
               <li><strong>Fitbit:</strong> We access your Fitbit activity and health data. Your use of Fitbit services is also subject to Fitbit&apos;s Privacy Policy.</li>
               <li><strong>Whoop:</strong> We access your Whoop strain, recovery, and sleep data. Your use of Whoop services is also subject to Whoop&apos;s Privacy Policy.</li>
@@ -151,7 +158,23 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Your Rights and Choices</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Data Retention and Deletion</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              We retain account information, profile information, challenge activity, workout records, and connected-service data while your account is active and for as long as needed to provide the features you use.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              When you delete your account through the app, or ask us to delete it through our <Link href="/support" className="text-blue-600 hover:text-blue-700">Support page</Link>, we delete your account and associated user-owned data from our active systems. This includes your profile, workouts, challenge participation, and stored wearable connection data. We also revoke or deregister connected providers where those providers support it.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Residual copies may remain temporarily in encrypted backups until those backups are overwritten through our normal backup rotation. Backup copies are used only for security and disaster recovery, not for ordinary product use. If a backup is restored, deletion requests remain subject to this policy.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              We retain security, diagnostic, fraud-prevention, and support records only for as long as reasonably necessary for those purposes. We may retain limited information for longer when required by law, to resolve disputes, or to enforce our agreements. When the applicable purpose or required period ends, we delete or anonymize that information. We do not retain deleted-account data indefinitely.
+            </p>
+          </section>
+
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Your Rights and Choices</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               You have the following rights regarding your personal information:
             </p>
@@ -164,33 +187,33 @@ export default function PrivacyPolicyPage() {
               <li><strong>Opt-Out:</strong> Opt out of certain data collection or marketing communications</li>
             </ul>
             <p className="text-gray-700 leading-relaxed">
-              To exercise these rights, please contact us at <a href="mailto:jagan.sudan@letsfitgo.com" className="text-blue-600 hover:text-blue-700">jagan.sudan@letsfitgo.com</a>.
+              To exercise these rights, use the deletion controls in the app, visit our <Link href="/support" className="text-blue-600 hover:text-blue-700">Support page</Link>, or contact us at <a href="mailto:jagan.sudan@letsfitgo.com" className="text-blue-600 hover:text-blue-700">jagan.sudan@letsfitgo.com</a>.
             </p>
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Children&apos;s Privacy</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Children&apos;s Privacy</h2>
             <p className="text-gray-700 leading-relaxed">
               Let&apos;s Fit Go is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
             </p>
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">9. International Data Transfers</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. International Data Transfers</h2>
             <p className="text-gray-700 leading-relaxed">
               Your information may be transferred to and processed in countries other than your country of residence. These countries may have data protection laws that differ from those in your country. We ensure appropriate safeguards are in place to protect your data in accordance with this Privacy Policy.
             </p>
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Changes to This Privacy Policy</h2>
             <p className="text-gray-700 leading-relaxed">
               We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;Last Updated&quot; date. You are advised to review this Privacy Policy periodically for any changes.
             </p>
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Contact Us</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               If you have any questions about this Privacy Policy or our data practices, please contact us:
             </p>
@@ -217,4 +240,3 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
-
