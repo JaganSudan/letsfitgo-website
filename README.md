@@ -31,8 +31,8 @@ Create a `.env.local` file (already created with defaults):
 
 ```bash
 NEXT_PUBLIC_API_URL=https://intelligent-energy-production-7df5.up.railway.app/api/v1
-NEXT_PUBLIC_APP_STORE_URL=https://apps.apple.com/app/lets-fit-go/id123456789
-NEXT_PUBLIC_PLAY_STORE_URL=https://play.google.com/store/apps/details?id=com.jagansudan.templfg
+NEXT_PUBLIC_APP_STORE_URL=https://apps.apple.com/nz/app/letsfitgo/id6754862826
+NEXT_PUBLIC_PLAY_STORE_URL=https://play.google.com/store/apps/details?id=com.jagansudan.templfg&pcampaignid=web_share
 NEXT_PUBLIC_APP_SCHEME=lfg
 NEXT_PUBLIC_SITE_URL=http://localhost:3000  # Update for production
 ```
@@ -103,7 +103,6 @@ See `LANDING_PAGE_IMPLEMENTATION_GUIDE.md` for complete API documentation.
 ## License
 
 Private project for Let's Fit Go.
-
 
 
 
