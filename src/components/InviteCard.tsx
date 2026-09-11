@@ -45,7 +45,7 @@ export default function InviteCard({ invite }: InviteCardProps) {
             )}
           </div>
           <Badge variant="secondary" className="ml-4">
-            Challenge
+            {invite.mode === 'teams' ? 'Teams' : 'Free for all'} · {invite.status || 'Challenge'}
           </Badge>
         </div>
       </CardHeader>

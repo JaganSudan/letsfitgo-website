@@ -1,12 +1,12 @@
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 
 export default function AppStoreButtons() {
-  const appStoreUrl = APP_STORE_URL || '#';
-  const playStoreUrl = PLAY_STORE_URL || '#';
+  const appStoreUrl = APP_STORE_URL;
+  const playStoreUrl = PLAY_STORE_URL;
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a
+      {appStoreUrl && <a
         href={appStoreUrl}
         target="_blank"
         rel="noopener noreferrer"
@@ -17,8 +17,8 @@ export default function AppStoreButtons() {
           alt="Download on the App Store"
           className="h-[50px] w-auto"
         />
-      </a>
-      <a
+      </a>}
+      {playStoreUrl && <a
         href={playStoreUrl}
         target="_blank"
         rel="noopener noreferrer"
@@ -29,7 +29,8 @@ export default function AppStoreButtons() {
           alt="Get it on Google Play"
           className="h-[50px] w-auto"
         />
-      </a>
+      </a>}
+      {!appStoreUrl && !playStoreUrl && <p>Preview installation links are not configured. Contact the test owner.</p>}
     </div>
   );
 }

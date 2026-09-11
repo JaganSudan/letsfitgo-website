@@ -1,5 +1,10 @@
 export interface ChallengeInvite {
   isValid: boolean;
+  status?: string;
+  mode?: string;
+  joinAvailability?: string;
+  code?: string;
+  retryable?: boolean;
   challengeName?: string;
   description?: string;
   startDate?: string;
