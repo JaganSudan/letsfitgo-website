@@ -77,18 +77,19 @@ export function resolveInviteConfig(env) {
 }
 export function associationDocuments(config, env) {
   if (env.INVITE_ASSOCIATIONS_ENABLED !== "true") return null;
+  const applePrefix = env.INVITE_APPLE_APP_ID_PREFIX || "";
+  const androidCertificate = env.INVITE_ANDROID_CERT_SHA256 || "";
   if (
-    !/^[A-Z0-9]{10}$/.test(env.INVITE_APPLE_APP_ID_PREFIX || "") ||
-    !/^([A-F0-9]{2}:){31}[A-F0-9]{2}$/i.test(
-      env.INVITE_ANDROID_CERT_SHA256 || "",
-    )
+    (!applePrefix && !androidCertificate) ||
+    (applePrefix && !/^[A-Z0-9]{10}$/.test(applePrefix)) ||
+    (androidCertificate && !/^([A-F0-9]{2}:){31}[A-F0-9]{2}$/i.test(androidCertificate))
   ) {
     throw new Error(
-      "Association activation requires verified Apple application prefix and Android app-signing SHA256",
+      "Association activation requires a verified signing identity for each enabled platform",
     );
   }
   return {
-    apple: {
+    apple: applePrefix ? {
       applinks: {
         apps: [],
         details: [
@@ -98,8 +99,8 @@ export function associationDocuments(config, env) {
           },
         ],
       },
-    },
-    android: [
+    } : null,
+    android: androidCertificate ? [
       {
         relation: ["delegate_permission/common.handle_all_urls"],
         target: {
@@ -108,6 +109,6 @@ export function associationDocuments(config, env) {
           sha256_cert_fingerprints: [env.INVITE_ANDROID_CERT_SHA256],
         },
       },
-    ],
+    ] : null,
   };
 }

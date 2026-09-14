@@ -228,3 +228,18 @@ test("disabled handoff never supplies clipboard data; unsupported browsers prese
   assert.equal(copied, false);
   assert.equal(await copyInviteHandoff("ABC123", config, {}), "unavailable");
 });
+
+
+test("iOS associations can activate without publishing an unverified Android identity", () => {
+  const docs = associationDocuments(config, {
+    INVITE_ASSOCIATIONS_ENABLED: "true",
+    INVITE_APPLE_APP_ID_PREFIX: "TEST123456",
+  });
+  assert.equal(docs.android, null);
+  assert.equal(docs.apple.applinks.details[0].appID, "TEST123456.com.jagansudan.templfg.preview");
+  assert.throws(() => associationDocuments(config, {
+    INVITE_ASSOCIATIONS_ENABLED: "true",
+    INVITE_APPLE_APP_ID_PREFIX: "TEST123456",
+    INVITE_ANDROID_CERT_SHA256: "unverified",
+  }));
+});

@@ -12,6 +12,7 @@ import LoadingState from "@/components/LoadingState";
 export default function InvitePage() {
   const params = useParams();
   const token = typeof params.token === "string" ? params.token : "";
+  const appName = INVITE_CONFIG.environment === "preview" ? "LFG Preview" : "LFG";
   const [invite, setInvite] = useState<ChallengeInvite | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [message, setMessage] = useState("");
@@ -96,11 +97,11 @@ export default function InvitePage() {
               href={`${APP_SCHEME}://invite/${token.toUpperCase()}`}
             >
               {joinable
-                ? "Open LFG to review and join"
-                : "Already a member? Open LFG"}
+                ? `Open ${appName} to review and join`
+                : `Already a member? Open ${appName}`}
             </a>
           )}
-          <h2 className="text-xl font-semibold">Installing LFG?</h2>
+          <h2 className="text-xl font-semibold">Installing {appName}?</h2>
           <p>
             After installing, reopen this original link. Or choose Join a
             challenge on the welcome screen and paste the full link. Signing up

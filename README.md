@@ -41,8 +41,9 @@ No provider or attribution SDK is installed. No unrestricted challenge code is
 exposed by a token preview. Physical device proof remains required.
 
 The `.well-known/apple-app-site-association` and `.well-known/assetlinks.json` routes
-return 404 until `INVITE_ASSOCIATIONS_ENABLED=true` and both
-`INVITE_APPLE_APP_ID_PREFIX` and `INVITE_ANDROID_CERT_SHA256` have verified values.
+return 404 until `INVITE_ASSOCIATIONS_ENABLED=true` and the corresponding
+`INVITE_APPLE_APP_ID_PREFIX` or `INVITE_ANDROID_CERT_SHA256` has a verified value.
+Platforms activate independently; an absent platform identity keeps its route at 404.
 These public signing values must be for the selected environment and the Android
 **Play app-signing** certificate. Never substitute the upload key or a made-up ID.
 Association responses target only `/invite/*`. Publishing them requires separate
@@ -71,3 +72,16 @@ handoff; they do not prove physical Safari/Android installation behavior.
 
 Validation: 10/10 tests and the Next production build pass. No deployment or
 hosted configuration changed; staging website setup remains deferred.
+
+## September 14 approved staging preparation
+
+The user authorized the full staging website and Preview/TestFlight rehearsal.
+The existing Vercel project is `letsfitgo-website` in `jagans-projects-40170dc0`,
+connected to `JaganSudan/letsfitgo-website`. Use only Preview branch settings.
+The existing LFG Preview app has an internal tester group and no public join link.
+Without an explicit public TestFlight URL, the Preview website provides Apple's
+TestFlight download button and instructions to install **LFG Preview** from the
+already-enrolled tester's app. This does not grant new tester access. The workflow
+follows [Apple's internal tester instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers).
+iOS associations may activate with verified provisioning proof while the Android
+route remains 404 pending its app-signing certificate. Physical proof is pending.
