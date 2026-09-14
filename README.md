@@ -1,7 +1,8 @@
-# LFG invitation website — local candidate (2026-09-12)
+# LFG invitation website — staging release in progress (2026-09-14)
 
 Website baseline `2144e5162383f9f661a96753d28e0217675e6039`, isolated local branch
-`codex/challenge-invite-e2e`. Nothing is deployed. The mobile/backend implementation
+`codex/challenge-invite-e2e`. This branch is deployed to Vercel Preview; production
+`main` remains unchanged. The mobile/backend implementation
 and full release gate record are in the LFG repository's
 `docs/roadmap/challenge-invite-end-to-end-plan.md`.
 
@@ -15,21 +16,21 @@ NEXT_PUBLIC_APP_SCHEME=lfg-preview
 NEXT_PUBLIC_SITE_URL=https://preview-invite.letsfitgo.com
 ```
 
-`preview-invite.letsfitgo.com` and `dev-invite.letsfitgo.com` are proposed, exact local
-candidate hostnames. DNS, hosting ownership and deployment project require operator
-confirmation. The user deferred staging website setup on September 12; these
-nonproduction mappings remain inactive local candidates. No DNS or hosted
-configuration has changed. Production accepts only
+`preview-invite.letsfitgo.com` is bound to this branch in the existing Vercel project
+`letsfitgo-website`. Its DNS CNAME and hostname-specific public access exception are
+saved and anonymous HTTPS access is verified. The user authorized this staging
+release after the earlier deferral. `dev-invite.letsfitgo.com` remains unconfigured.
+Production accepts only
 the existing letsfitgo.com, www.letsfitgo.com and go.letsfitgo.com origins and
 `https://api.letsfitgo.com/api/v1` with `lfg`. Development uses its own `lfg-dev`
 scheme and `dev-invite.letsfitgo.com` origin with the staging API.
 
 Install links are explicit: `NEXT_PUBLIC_APP_STORE_URL` and
-`NEXT_PUBLIC_PLAY_STORE_URL`. Missing preview values display an unavailable message;
+`NEXT_PUBLIC_PLAY_STORE_URL`. Preview without a public TestFlight URL uses the internal-tester instructions;
 production store targets cannot leak into preview. Production URLs retain iOS
-`6754862826` and Android `com.jagansudan.templfg`; preview requires its TestFlight
-invitation and Play package `com.jagansudan.templfg.preview`. Actual beta availability
-and signing identities have not been verified.
+`6754862826` and Android `com.jagansudan.templfg`; preview supports its explicit TestFlight
+invitation or enrolled internal testers, and Play package `com.jagansudan.templfg.preview`. A new Preview build is in progress; physical beta installation and signing
+association proof remain pending.
 
 Pages never join or auto-open the app on preload. Open-app and clipboard actions
 require a click. The selected local fallback is user-chosen copy/paste or reopening
@@ -52,7 +53,8 @@ authorization; they can affect installed clients immediately.
 Invite routes send `no-referrer`, `no-store`, and `noindex` headers. Application code
 does not log URLs or tokens. Hosting/CDN access-log retention and redaction cannot be
 verified locally and remain an activation gate. Vercel is indicated by `vercel.json`;
-the actual project, deployment SHA, credentials and operator are unverified.
+the actual project and account are verified for the staging release. The current
+public hostname serves commit `00e02226c3af0bfa86baeb7b52e69a031140fdbf`.
 
 Run `node --test test/invite.test.mjs`, `npm run lint`, `npx --no-install tsc --noEmit`,
 and a configured `npm run build`. Never use a deploy command as a build check.
@@ -85,3 +87,16 @@ already-enrolled tester's app. This does not grant new tester access. The workfl
 follows [Apple's internal tester instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers).
 iOS associations may activate with verified provisioning proof while the Android
 route remains 404 pending its app-signing certificate. Physical proof is pending.
+
+The initial staging publication passes 11 tests and the Next build. Vercel deployment
+`EbgjYFbWKdU1mahnJe6T8AzqLPq2` is ready. Anonymous HTTPS returns 200 with
+`no-referrer`, `no-store` and `noindex, nofollow`; browser inspection confirms malformed
+link recovery and the Preview-specific TestFlight instructions. This is not yet a
+full valid-invite acceptance pass: the matching backend migration/deployment, signed
+association document and physical device tests are still pending.
+
+Signed iOS build `a7f6462b-6fd0-4c3b-8f58-73438caa5fab`, 1.1.0 (8), now
+confirms prefix `X34GTT97WN` and only `applinks:preview-invite.letsfitgo.com`.
+The user-approved public hostname exception is saved. Publishing the verified
+Apple prefix and association flag remains paused after automatic approval review
+requested separately explicit hosted-configuration authorization.
