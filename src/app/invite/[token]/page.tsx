@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { fetchChallengeByInviteToken } from "@/lib/api";
-import { canCopyHandoff } from "@/lib/inviteClient.mjs";
+import { copyInviteHandoff } from "@/lib/inviteClient.mjs";
 import { ChallengeInvite } from "@/types/challenge";
 import { APP_SCHEME, INVITE_CONFIG } from "@/lib/constants";
 import InviteCard from "@/components/InviteCard";
@@ -31,20 +31,18 @@ export default function InvitePage() {
     invite.isValid &&
     (!invite.joinAvailability || invite.joinAvailability === "available");
   const copy = async () => {
-    if (!(await canCopyHandoff(INVITE_CONFIG))) {
+    const outcome = await copyInviteHandoff(token, INVITE_CONFIG);
+    if (outcome === "paused") {
       setMessage(
         "Copy handoff is paused. Install LFG, then reopen this original link or paste it into Join a challenge.",
       );
       return;
     }
-    try {
-      await navigator.clipboard.writeText(
-        `${INVITE_CONFIG.origin}/invite/${token.toUpperCase()}`,
-      );
+    if (outcome === "copied") {
       setMessage(
         "Invitation copied. Install LFG, choose Join a challenge, then paste the link and confirm. Your clipboard may be replaced by anything else you copy.",
       );
-    } catch {
+    } else {
       setMessage(
         "Copy was unavailable. After installing, reopen this original message and tap its link.",
       );

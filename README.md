@@ -55,3 +55,19 @@ the actual project, deployment SHA, credentials and operator are unverified.
 
 Run `node --test test/invite.test.mjs`, `npm run lint`, `npx --no-install tsc --noEmit`,
 and a configured `npm run build`. Never use a deploy command as a build check.
+
+## September 14 local review
+
+The review adds bounded preview/capability requests (12/8 seconds, including stalled
+response bodies) and keeps clipboard writes inside the user's click gesture. The
+clipboard item resolves its text only after the fresh capability check permits it;
+disabled/unavailable controls supply no clipboard data. Unsupported or denied
+clipboard access retains the visible reopen/paste-original-message fallback.
+
+This follows the [WebKit clipboard requirement](https://webkit.org/blog/10855/async-clipboard-api/)
+and its [deferred ClipboardItem guidance](https://bugs.webkit.org/show_bug.cgi?id=222262).
+Local injected-browser tests cover call timing, delayed capabilities and denied
+handoff; they do not prove physical Safari/Android installation behavior.
+
+Validation: 10/10 tests and the Next production build pass. No deployment or
+hosted configuration changed; staging website setup remains deferred.

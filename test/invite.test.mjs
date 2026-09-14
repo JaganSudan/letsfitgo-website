@@ -4,7 +4,11 @@ import {
   resolveInviteConfig,
   associationDocuments,
 } from "../src/lib/inviteConfig.mjs";
-import { lookupInvite, canCopyHandoff } from "../src/lib/inviteClient.mjs";
+import {
+  lookupInvite,
+  canCopyHandoff,
+  copyInviteHandoff,
+} from "../src/lib/inviteClient.mjs";
 const previewEnv = {
   NEXT_PUBLIC_APP_ENV: "preview",
   NEXT_PUBLIC_API_URL: "https://lfg-staging.up.railway.app/api/v1",
@@ -142,4 +146,85 @@ test("associations are off by default and require exact verified signing values"
     docs.android[0].target.package_name,
     "com.jagansudan.templfg.preview",
   );
+});
+
+test("stalled preview headers or body terminate with retryable fallback", async () => {
+  for (const bodyStalled of [false, true]) {
+    let signal;
+    const result = await lookupInvite(
+      "ABC123",
+      config,
+      async (_url, options) => {
+        signal = options.signal;
+        if (bodyStalled) return { ok: true, json: () => new Promise(() => {}) };
+        return new Promise(() => {});
+      },
+      10,
+    );
+    assert.equal(result.retryable, true);
+    assert.equal(signal.aborted, true);
+  }
+  assert.equal(
+    await canCopyHandoff(config, () => new Promise(() => {}), 10),
+    false,
+  );
+});
+test("clipboard write starts within the click before capability data resolves", async () => {
+  let resolveCapability;
+  let inGesture = true;
+  let copied;
+  const browser = {
+    ClipboardItem: class {
+      constructor(data) {
+        this.data = data;
+      }
+    },
+    clipboard: {
+      async write(items) {
+        assert.equal(inGesture, true);
+        copied = await (await items[0].data["text/plain"]).text();
+      },
+    },
+  };
+  const result = copyInviteHandoff(
+    "abc123",
+    config,
+    browser,
+    () =>
+      new Promise((resolve) => {
+        resolveCapability = resolve;
+      }),
+  );
+  inGesture = false;
+  resolveCapability({
+    ok: true,
+    json: async () => ({ contractVersion: 2, websiteHandoff: true }),
+  });
+  assert.equal(await result, "copied");
+  assert.equal(copied, `${config.origin}/invite/ABC123`);
+});
+test("disabled handoff never supplies clipboard data; unsupported browsers preserve manual fallback", async () => {
+  let copied = false;
+  const browser = {
+    ClipboardItem: class {
+      constructor(data) {
+        this.data = data;
+      }
+    },
+    clipboard: {
+      async write(items) {
+        await items[0].data["text/plain"];
+        copied = true;
+      },
+    },
+  };
+  assert.equal(
+    await copyInviteHandoff("ABC123", config, browser, async () => ({
+      ok: true,
+      json: async () => ({ contractVersion: 2, websiteHandoff: false }),
+    })),
+    "paused",
+  );
+  assert.equal(copied, false);
+  assert.equal(await copyInviteHandoff("ABC123", config, {}), "unavailable");
 });
