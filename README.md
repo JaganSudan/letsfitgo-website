@@ -1,4 +1,4 @@
-# LFG invitation website — local account-first candidate (2026-09-16)
+# LFG invitation website — account-first Preview release (2026-09-16)
 
 The implemented journey is install → ordinary account creation/sign-in and onboarding
 in LFG → return to the original message → review and explicitly Join challenge. Already
@@ -7,11 +7,12 @@ carried through setup. The app gives brief guidance for early taps and requires 
 post-setup tap. The authoritative execution record is
 `/private/tmp/lfg-challenge-invite-e2e/docs/roadmap/challenge-invite-account-first-plan.md`.
 The current exact review package is `/private/tmp/lfg-invite-account-first-review/README.md`.
-This candidate is local only; publication and physical acceptance are pending.
+This candidate is published to Preview; physical acceptance remains pending. See the
+September 16 publication record below.
 
 Website baseline `2144e5162383f9f661a96753d28e0217675e6039`, isolated local branch
 `codex/challenge-invite-e2e`. The September 14 release of this branch is deployed to Vercel Preview.
-September 15/16 changes are local only; production `main` remains unchanged. The mobile/backend implementation
+The September 15/16 account-first changes are now published to Preview; production `main` remains unchanged. The mobile/backend implementation
 and full release gate record are in the LFG repository's
 `docs/roadmap/challenge-invite-end-to-end-plan.md`.
 
@@ -49,7 +50,7 @@ The website removes copy/paste controls and shows install guidance only for join
 invitations; unavailable invitations retain existing-member opening. There is no
 website signup or deferred-link provider.
 
-In this local candidate, v2 `websiteHandoff` gates the explicit **Open app** action.
+In this candidate, v2 `websiteHandoff` gates the explicit **Open app** action.
 Load capabilities on entry, focus/pageshow and visible resume (8-second timeout).
 Enabled results expire at most 30 seconds after request start; hide/pagehide
 invalidates them and late responses cannot restore stale permission. A fresh link
@@ -186,3 +187,20 @@ against this HEAD, amendment-only patches against the supplied dirty candidate, 
 hashes, source IDs, logs and screenshot. The prior `/private/tmp/lfg-invite-reopen-review/`
 package remains historical. No push, publication, hosted flag change, fixture mutation,
 native submission or production action is authorized/performed by this local step.
+
+## September 16 approved Preview publication
+
+The owner explicitly requested the Preview push for phone testing. Implementation
+`7082d3a23b566a891b7445612084389a4803c48a` is published on branch `codex/challenge-invite-e2e`.
+Vercel Preview deployment `CLCv63pu1fxwHFaz65a1m2spJT3g` succeeded;
+`https://preview-invite.letsfitgo.com` serves the new account-first JavaScript and
+Preview-only targets. HTTP privacy headers, staging health/capabilities/CORS and
+Preview-only Apple association passed public read-only verification. Documentation-only
+follow-ups may advance the deployment revision without changing website behavior.
+
+Matching app `2324a7d9c02f2bb554be457c327d60d51398a8b2` is on Preview OTA group
+`f0e567de-8eee-4689-bffb-b2293013d4c2`, runtime `1.1.0-preview`, compatible with existing
+LFG Preview 1.1.0 (8). No new binary, schema, hosted flag/association setting, fixture
+mutation or production change was performed. Physical acceptance and fresh email
+delivery remain pending. The app repository's September 16 account-first Preview
+release record and phone checklist contain the exact publication/testing evidence.
