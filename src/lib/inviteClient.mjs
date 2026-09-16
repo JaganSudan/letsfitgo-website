@@ -81,58 +81,52 @@ export async function lookupInvite(
     };
   }
 }
-export async function canCopyHandoff(
-  config,
+export const HANDOFF_TTL_MS = 30000;
+
+// Freshness and lifecycle are independent of navigation. Only the page's actual
+// click may activate its native link; refreshing this gate never opens an app.
+export function createWebsiteHandoff(config, {
   fetcher = fetch,
+  now = Date.now,
   timeoutMs = 8000,
-) {
-  try {
-    const { response, data } = await requestJson(
-      `${config.api}/challenges/invite-capabilities`,
-      fetcher,
-      timeoutMs,
-    );
-    return (
-      response.ok && data.contractVersion === 2 && data.websiteHandoff === true
-    );
-  } catch {
-    return false;
-  }
+  onChange = (/** @type {{ status: string, expiresAt: number }} */ state) => { void state; },
+} = {}) {
+  let generation = 0;
+  let snapshot = { status: "idle", expiresAt: 0 };
+  const publish = (status, expiresAt = 0) => {
+    snapshot = { status, expiresAt };
+    onChange(snapshot);
+  };
+  return {
+    getSnapshot: () => snapshot,
+    canOpen: () => snapshot.status === "enabled" && now() < snapshot.expiresAt,
+    invalidate() {
+      generation++;
+      publish("idle");
+    },
+    async refresh() {
+      const request = ++generation;
+      const startedAt = now();
+      publish("loading");
+      try {
+        const { response, data } = await requestJson(
+          `${config.api}/challenges/invite-capabilities`, fetcher, timeoutMs,
+        );
+        if (request !== generation) return;
+        const expiresAt = startedAt + HANDOFF_TTL_MS;
+        publish(response.ok && data?.contractVersion === 2 &&
+          data.websiteHandoff === true && now() < expiresAt ? "enabled" : "blocked", expiresAt);
+      } catch {
+        if (request === generation) publish("blocked");
+      }
+    },
+  };
 }
 
-export async function copyInviteHandoff(
-  token,
-  config,
-  browser = {
-    clipboard: globalThis.navigator?.clipboard,
-    ClipboardItem: globalThis.ClipboardItem,
-  },
-  fetcher = fetch,
-) {
-  if (
-    !/^[a-z0-9]{6}$/i.test(token) ||
-    !browser.clipboard?.write ||
-    !browser.ClipboardItem
-  )
-    return "unavailable";
-  let enabled;
-  const content = canCopyHandoff(config, fetcher).then((allowed) => {
-    enabled = allowed;
-    if (!allowed) throw new Error("Invitation handoff is paused");
-    return new Blob([`${config.origin}/invite/${token.toUpperCase()}`], {
-      type: "text/plain",
-    });
-  });
-  // Handle content rejection even if the browser refuses the write immediately.
-  void content.catch(() => {});
-  try {
-    // Invoke write in the click gesture; only the ClipboardItem's data is deferred.
-    // Awaiting the capability fetch before writeText loses Safari's user activation.
-    await browser.clipboard.write([
-      new browser.ClipboardItem({ "text/plain": content }),
-    ]);
-    return "copied";
-  } catch {
-    return enabled === false ? "paused" : "unavailable";
-  }
+// Synchronous guard: a stale tap can refresh permission for the next tap only.
+export function guardAppOpen(event, handoff) {
+  if (handoff.canOpen()) return true;
+  event.preventDefault();
+  void handoff.refresh();
+  return false;
 }

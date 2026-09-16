@@ -18,7 +18,7 @@ export default function AppStoreButtons() {
         <p className="text-sm text-gray-600">
           {appStoreUrl
             ? "Accept the beta invitation in TestFlight, then install LFG Preview."
-            : "Already a tester? Open TestFlight and install LFG Preview. If it is missing, accept your tester invitation or contact the test owner."}
+            : "Get TestFlight installs Apple’s testing app. To install LFG Preview, accept your existing tester invitation, then select LFG Preview in TestFlight. If it is missing, contact the test owner."}
         </p>
         {playStoreUrl && <a className="block text-blue-700 underline" href={playStoreUrl} rel="noreferrer">Install LFG Preview for Android</a>}
       </div>

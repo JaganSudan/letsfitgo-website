@@ -1,8 +1,17 @@
-# LFG invitation website — staging release in progress (2026-09-14)
+# LFG invitation website — local account-first candidate (2026-09-16)
+
+The implemented journey is install → ordinary account creation/sign-in and onboarding
+in LFG → return to the original message → review and explicitly Join challenge. Already
+signed-in/onboarded recipients go directly to review. There is no web signup or consent
+carried through setup. The app gives brief guidance for early taps and requires a fresh
+post-setup tap. The authoritative execution record is
+`/private/tmp/lfg-challenge-invite-e2e/docs/roadmap/challenge-invite-account-first-plan.md`.
+The current exact review package is `/private/tmp/lfg-invite-account-first-review/README.md`.
+This candidate is local only; publication and physical acceptance are pending.
 
 Website baseline `2144e5162383f9f661a96753d28e0217675e6039`, isolated local branch
-`codex/challenge-invite-e2e`. This branch is deployed to Vercel Preview; production
-`main` remains unchanged. The mobile/backend implementation
+`codex/challenge-invite-e2e`. The September 14 release of this branch is deployed to Vercel Preview.
+September 15/16 changes are local only; production `main` remains unchanged. The mobile/backend implementation
 and full release gate record are in the LFG repository's
 `docs/roadmap/challenge-invite-end-to-end-plan.md`.
 
@@ -32,14 +41,25 @@ production store targets cannot leak into preview. Production URLs retain iOS
 invitation or enrolled internal testers, and Play package `com.jagansudan.templfg.preview`. LFG Preview 1.1.0 (8) is available to the existing internal LFG TestFlight group;
 signed iOS association proof passes, while physical beta installation remains pending.
 
-Pages never join or auto-open the app on preload. Open-app and clipboard actions
-require a click. The selected local fallback is user-chosen copy/paste or reopening
-the original link after install, explicitly selected by the user on September 12;
-it does not automatically cross an App Store
-installation. Copy handoff checks the server's default-off `websiteHandoff`
-capability on every click; failures preserve the reopen/paste-original-link path.
-No provider or attribution SDK is installed. No unrestricted challenge code is
-exposed by a token preview. Physical device proof remains required.
+Pages never join or auto-open on preload. The recipient installs LFG, opens it normally,
+creates an account or signs in and finishes onboarding. Normal setup lands normally,
+with no challenge join. They return to the original message and tap the invitation,
+review it in LFG and explicitly join to reach that exact challenge.
+The website removes copy/paste controls and shows install guidance only for joinable
+invitations; unavailable invitations retain existing-member opening. There is no
+website signup or deferred-link provider.
+
+In this local candidate, v2 `websiteHandoff` gates the explicit **Open app** action.
+Load capabilities on entry, focus/pageshow and visible resume (8-second timeout).
+Enabled results expire at most 30 seconds after request start; hide/pagehide
+invalidates them and late responses cannot restore stale permission. A fresh link
+activates synchronously in the user's click. Stale taps prevent navigation and
+refresh for the next tap only; nothing auto-launches after the request. False,
+missing, old-contract and failed responses keep native opening unavailable. This
+does not control OS-delivered links or the separate native automatic-join policy.
+Older released websites use the same field for clipboard gating; the API is unchanged.
+No unrestricted challenge code is exposed by public preview. Browser-specific native
+opening and real installation remain physical-device gates.
 
 The `.well-known/apple-app-site-association` and `.well-known/assetlinks.json` routes
 return 404 until `INVITE_ASSOCIATIONS_ENABLED=true` and the corresponding
@@ -127,3 +147,42 @@ public join URL or new access grant. Physical Safari copy, Universal Links,
 installation/reopen, fresh signup and final UI/destination acceptance remain pending.
 Hosting/CDN raw-URL logging/retention is also unverified. No end-to-end device pass
 is claimed from desktop browser or signing proof.
+
+## September 15 local reopen-flow review
+
+The new UX builds on `87fd1abda72a605b2e7f99683c4b2771093a06bb`; no new deployment,
+hosted settings, associations or store targets were changed. The historical
+September 14 sections above remain evidence of that earlier release, including its
+clipboard workflow. The app worktree's `challenge-invite-reopen-flow-plan.md` and
+`challenge-invite-phone-test.md` track the revised candidate and pending acceptance.
+
+For local browser regression, start a configured production build on
+`http://127.0.0.1:3107`, then run `node --test test/invite-browser.test.cjs` with
+Playwright available through the local runtime's `NODE_PATH`. The test refuses a
+non-loopback base, intercepts every staging API request with fake fixtures and blocks
+other external requests. It checks the real page at 320px/large text, install/reopen
+copy, trusted click gating, unavailable/disabled states and retry. It deliberately
+prevents native launching; browser tests cannot prove app installation or link delivery.
+
+## September 16 account-first amendment
+
+Amended the existing dirty candidate based on
+`87fd1abda72a605b2e7f99683c4b2771093a06bb`. The page now has four ordered steps:
+install, ordinary account setup, return to message, review/Join challenge. Unavailable
+invitations keep member recovery without promising installation will enable a new join.
+Preview still uses the existing tester invitation: downloading TestFlight alone does
+not install LFG Preview or enroll a tester. Store targets/associations are unchanged.
+
+The existing `InviteAppOpen` and `inviteClient` capability/gesture implementation is
+preserved. Refresh never launches the app. Browser tests assert the exact instruction
+order and retain the original expiry/resume/terminal cases. Validation: 11 unit tests,
+configured build, TypeScript, lint and 5 loopback mocked Chromium checks pass. Two
+existing image lint warnings and browser-data notices remain. The 320px screenshot
+was visually reviewed; 200% text overflow check passes. Real iOS/Android, native opening,
+email delivery and loaded-update proof remain separate gates.
+
+Review label: `account-first-local-2026-09-16-r1`. The new review package contains patches
+against this HEAD, amendment-only patches against the supplied dirty candidate, per-file
+hashes, source IDs, logs and screenshot. The prior `/private/tmp/lfg-invite-reopen-review/`
+package remains historical. No push, publication, hosted flag change, fixture mutation,
+native submission or production action is authorized/performed by this local step.

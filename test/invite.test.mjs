@@ -6,8 +6,9 @@ import {
 } from "../src/lib/inviteConfig.mjs";
 import {
   lookupInvite,
-  canCopyHandoff,
-  copyInviteHandoff,
+  createWebsiteHandoff,
+  guardAppOpen,
+  HANDOFF_TTL_MS,
 } from "../src/lib/inviteClient.mjs";
 const previewEnv = {
   NEXT_PUBLIC_APP_ENV: "preview",
@@ -105,28 +106,6 @@ test("terminal server outcomes stay distinct", async () => {
     assert.equal(result.retryable, false);
   }
 });
-test("remote handoff control fails closed when unavailable or disabled", async () => {
-  assert.equal(
-    await canCopyHandoff(config, async () => {
-      throw new Error("offline");
-    }),
-    false,
-  );
-  assert.equal(
-    await canCopyHandoff(config, async () => ({
-      ok: true,
-      json: async () => ({ contractVersion: 2, websiteHandoff: false }),
-    })),
-    false,
-  );
-  assert.equal(
-    await canCopyHandoff(config, async () => ({
-      ok: true,
-      json: async () => ({ contractVersion: 2, websiteHandoff: true }),
-    })),
-    true,
-  );
-});
 test("associations are off by default and require exact verified signing values", () => {
   assert.equal(associationDocuments(config, {}), null);
   assert.throws(() =>
@@ -164,71 +143,7 @@ test("stalled preview headers or body terminate with retryable fallback", async 
     assert.equal(result.retryable, true);
     assert.equal(signal.aborted, true);
   }
-  assert.equal(
-    await canCopyHandoff(config, () => new Promise(() => {}), 10),
-    false,
-  );
 });
-test("clipboard write starts within the click before capability data resolves", async () => {
-  let resolveCapability;
-  let inGesture = true;
-  let copied;
-  const browser = {
-    ClipboardItem: class {
-      constructor(data) {
-        this.data = data;
-      }
-    },
-    clipboard: {
-      async write(items) {
-        assert.equal(inGesture, true);
-        copied = await (await items[0].data["text/plain"]).text();
-      },
-    },
-  };
-  const result = copyInviteHandoff(
-    "abc123",
-    config,
-    browser,
-    () =>
-      new Promise((resolve) => {
-        resolveCapability = resolve;
-      }),
-  );
-  inGesture = false;
-  resolveCapability({
-    ok: true,
-    json: async () => ({ contractVersion: 2, websiteHandoff: true }),
-  });
-  assert.equal(await result, "copied");
-  assert.equal(copied, `${config.origin}/invite/ABC123`);
-});
-test("disabled handoff never supplies clipboard data; unsupported browsers preserve manual fallback", async () => {
-  let copied = false;
-  const browser = {
-    ClipboardItem: class {
-      constructor(data) {
-        this.data = data;
-      }
-    },
-    clipboard: {
-      async write(items) {
-        await items[0].data["text/plain"];
-        copied = true;
-      },
-    },
-  };
-  assert.equal(
-    await copyInviteHandoff("ABC123", config, browser, async () => ({
-      ok: true,
-      json: async () => ({ contractVersion: 2, websiteHandoff: false }),
-    })),
-    "paused",
-  );
-  assert.equal(copied, false);
-  assert.equal(await copyInviteHandoff("ABC123", config, {}), "unavailable");
-});
-
 
 test("iOS associations can activate without publishing an unverified Android identity", () => {
   const docs = associationDocuments(config, {
@@ -242,4 +157,58 @@ test("iOS associations can activate without publishing an unverified Android ide
     INVITE_APPLE_APP_ID_PREFIX: "TEST123456",
     INVITE_ANDROID_CERT_SHA256: "unverified",
   }));
+});
+
+const capability = (websiteHandoff, contractVersion = 2) => ({
+  ok: true, json: async () => ({ contractVersion, websiteHandoff }),
+});
+test("Open-app gate rejects disabled, missing, old, failed, stalled and malformed capabilities", async () => {
+  for (const fetcher of [
+    async () => capability(false), async () => capability(undefined),
+    async () => capability(true, 1), async () => ({ ...capability(true), ok: false }),
+    async () => { throw new Error("offline"); },
+    () => new Promise(() => {}),
+    async () => ({ ok: true, json: () => new Promise(() => {}) }),
+    async () => ({ ok: true, json: async () => null }),
+  ]) {
+    const gate = createWebsiteHandoff(config, { fetcher, timeoutMs: 10 });
+    assert.equal(gate.canOpen(), false);
+    const refresh = gate.refresh();
+    assert.equal(gate.canOpen(), false);
+    await refresh;
+    assert.equal(gate.canOpen(), false);
+  }
+});
+test("fresh Open-app permission permits a synchronous gesture and expires after 30 seconds", async () => {
+  let now = 100; const calls = [];
+  const gate = createWebsiteHandoff(config, { now: () => now, fetcher: async (url, options) => {
+    calls.push({ url, options }); return capability(true);
+  }});
+  await gate.refresh();
+  assert.equal(calls[0].url, `${config.api}/challenges/invite-capabilities`);
+  assert.equal(calls[0].options.method, "GET");
+  assert.equal(calls[0].options.cache, "no-store");
+  assert.equal(guardAppOpen({ preventDefault() { assert.fail("fresh gesture blocked"); } }, gate), true);
+  assert.equal(calls.length, 1); // No fetch or await within an allowed native activation.
+  now += HANDOFF_TTL_MS;
+  assert.equal(gate.canOpen(), false);
+  let blocked = false;
+  assert.equal(guardAppOpen({ preventDefault() { blocked = true; } }, gate), false);
+  assert.equal(blocked, true);
+  assert.equal(gate.canOpen(), false); // Refresh never opens on behalf of that stale tap.
+  await gate.refresh();
+  assert.equal(gate.canOpen(), true);
+});
+test("hide/resume and overlapping requests cannot resurrect stale permission", async () => {
+  let resolve;
+  const gate = createWebsiteHandoff(config, { fetcher: () => new Promise(r => { resolve = r; }) });
+  const old = gate.refresh(); const oldResponse = resolve;
+  gate.invalidate();
+  const resumed = gate.refresh(); const resumedResponse = resolve;
+  resumedResponse(capability(false)); await resumed;
+  oldResponse(capability(true)); await old;
+  assert.equal(gate.canOpen(), false);
+  const current = gate.refresh(); resolve(capability(true)); await current;
+  assert.equal(gate.canOpen(), true);
+  gate.invalidate(); assert.equal(gate.canOpen(), false);
 });

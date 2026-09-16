@@ -33,8 +33,8 @@ export default function InviteCard({ invite }: InviteCardProps) {
   return (
     <Card className="border-2 border-blue-100 shadow-xl">
       <CardHeader>
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
+        <div className="flex flex-col gap-3 sm:flex-row items-start justify-between">
+          <div className="min-w-0 flex-1">
             <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
               {invite.challengeName}
             </CardTitle>
@@ -44,7 +44,7 @@ export default function InviteCard({ invite }: InviteCardProps) {
               </p>
             )}
           </div>
-          <Badge variant="secondary" className="ml-4">
+          <Badge variant="secondary" className="max-w-full sm:ml-4">
             {invite.mode === 'teams' ? 'Teams' : 'Free for all'} · {invite.status || 'Challenge'}
           </Badge>
         </div>
@@ -53,7 +53,7 @@ export default function InviteCard({ invite }: InviteCardProps) {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Duration */}
-          <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+          <div className="flex flex-wrap items-center gap-3 p-3 bg-blue-50 rounded-lg">
             <div className="p-2 bg-blue-100 rounded-lg">
               <Calendar className="w-5 h-5 text-blue-600" />
             </div>
@@ -66,7 +66,7 @@ export default function InviteCard({ invite }: InviteCardProps) {
           </div>
 
           {/* Participants */}
-          <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+          <div className="flex flex-wrap items-center gap-3 p-3 bg-green-50 rounded-lg">
             <div className="p-2 bg-green-100 rounded-lg">
               <Users className="w-5 h-5 text-green-600" />
             </div>
@@ -80,7 +80,7 @@ export default function InviteCard({ invite }: InviteCardProps) {
           </div>
 
           {/* Challenge Type */}
-          <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+          <div className="flex flex-wrap items-center gap-3 p-3 bg-purple-50 rounded-lg">
             <div className="p-2 bg-purple-100 rounded-lg">
               <Target className="w-5 h-5 text-purple-600" />
             </div>
