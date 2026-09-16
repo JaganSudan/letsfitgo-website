@@ -53,7 +53,7 @@ test('small-screen actual page shows install/account-setup/reopen/join guidance 
     assert.equal(await f.page.locator('input').count(), 0);
     assert.doesNotMatch(await f.page.locator('main').innerText(), /paste|clipboard|Copy invitation/i);
     assert.equal(await f.page.getByRole('link', { name: 'Open LFG Preview to review and join' }).getAttribute('href'), 'lfg-preview://invite/ABC123');
-    await f.page.screenshot({ path: '/private/tmp/lfg-invite-account-first-review/website-small.png', fullPage: true });
+    if (process.env.INVITE_TEST_SCREENSHOT) await f.page.screenshot({ path: process.env.INVITE_TEST_SCREENSHOT, fullPage: true });
     await f.page.addStyleTag({ content: 'html { font-size: 200%; }' });
     assert.equal(await f.page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
     assert.ok(f.calls.every(path => !path.includes('join-by-invite')));
@@ -116,5 +116,14 @@ test('preview failure offers retry and recovers the real page without a join', a
     await f.page.getByRole('button', { name: 'Retry invitation' }).click();
     await f.page.getByRole('heading', { name: 'Your challenge invitation' }).waitFor();
     await f.page.getByRole('link', { name: 'Get TestFlight' }).waitFor();
+  } finally { await f.context.close(); }
+});
+
+test('team challenge instructions lead to the shared in-app team picker', async () => {
+  const f = await fixture({ result: { ...preview, mode: 'teams' } });
+  try {
+    await f.page.getByRole('link', { name: 'Open LFG Preview to review and join' }).waitFor();
+    assert.match((await f.page.locator('ol li').allTextContents())[3], /choose your team and tap Join Team/);
+    assert.ok(f.calls.every(path => !path.includes('join-by-invite')));
   } finally { await f.context.close(); }
 });

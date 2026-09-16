@@ -58,9 +58,7 @@ export default function InvitePage() {
         )}
         {!joinable && invite.isValid && (
           <p role="status">
-            {invite.mode === "teams"
-              ? "Teams require a direct invitation in LFG so you can choose a team."
-              : "This challenge is full or unavailable for new members."}
+            This challenge is full or unavailable for new members.
           </p>
         )}
         {invite.retryable && (
@@ -81,7 +79,9 @@ export default function InvitePage() {
                   <li>Install {appName} using the instructions below.</li>
                   <li>Open {appName} and create an account or sign in. Finish account setup.</li>
                   <li>Return to the message your friend sent and tap this invitation again.</li>
-                  <li>Review the challenge and tap Join challenge in {appName}.</li>
+                  <li>{invite.mode === "teams"
+                    ? `Review the challenge, choose your team and tap Join Team in ${appName}.`
+                    : `Review the challenge and tap Join challenge in ${appName}.`}</li>
                 </ol>
                 <AppStoreButtons />
                 <p className="text-sm text-gray-600">

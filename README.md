@@ -1,3 +1,15 @@
+# Local team-link follow-up (2026-09-16)
+
+The current unshipped follow-up updates team-link instructions to use the app’s
+existing Pick your team / Join Team flow. It removes the old teams-unavailable
+explanation. Mobile native sharing and removal of manual challenge-code entry are
+implemented in the matching LFG candidate. See
+`/private/tmp/lfg-challenge-invite-e2e/docs/roadmap/challenge-native-share-team-links.md`.
+Local checks: configured build, unit/browser tests, lint and TypeScript. Browser
+fixtures block/mock external traffic. Physical acceptance remains pending.
+The account-first publication below remains the hosted release until this follow-up
+is explicitly published.
+
 # LFG invitation website — account-first Preview release (2026-09-16)
 
 The implemented journey is install → ordinary account creation/sign-in and onboarding
