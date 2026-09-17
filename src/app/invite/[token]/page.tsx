@@ -72,6 +72,13 @@ export default function InvitePage() {
         {validFormat && (
           <section className="bg-white rounded-2xl p-6 space-y-5 text-center">
             <InviteAppOpen key={token} token={token} appName={appName} joinable={Boolean(joinable)} />
+            {joinable && invite.mode === "teams" && INVITE_CONFIG.environment === "production" && (
+              <p className="text-sm text-gray-600">
+                Already have LFG? Update to the latest version before opening this
+                team invitation. Older versions cannot choose a team. After updating,
+                return to the original message and tap the invitation again.
+              </p>
+            )}
             {joinable && (
               <div className="space-y-5 border-t pt-5">
                 <h2 className="text-xl font-semibold">New to {appName}?</h2>
