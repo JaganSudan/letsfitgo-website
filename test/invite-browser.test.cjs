@@ -44,12 +44,20 @@ test('small-screen actual page shows install/account-setup/reopen/join guidance 
     await f.page.getByRole('link', { name: 'Open LFG Preview to review and join' }).waitFor();
     assert.match(await f.page.locator('main').innerText(), /Return to the message your friend sent/);
     assert.deepEqual(await f.page.locator('ol li').allTextContents(), [
-      'Install LFG Preview using the instructions below.',
+      'Install LFG Preview using the download button above.',
       'Open LFG Preview and create an account or sign in. Finish account setup.',
       'Return to the message your friend sent and tap this invitation again.',
       'Review the challenge and tap Join challenge in LFG Preview.',
     ]);
     assert.doesNotMatch(await f.page.locator('main').innerText(), /Choose to join, then|after account setup, this challenge opens/i);
+    const install = await f.page.getByRole('link', { name: 'Get TestFlight' }).boundingBox();
+    const open = await f.page.getByRole('link', { name: 'Open LFG Preview to review and join' }).boundingBox();
+    const details = await f.page.locator('summary').boundingBox();
+    assert.ok(install.y < open.y && open.y < details.y, 'download comes before app opening and challenge details');
+    assert.equal(await f.page.locator('details').getAttribute('open'), null);
+    await f.page.locator('summary').click();
+    await f.page.getByText('A friendly walking challenge.').waitFor();
+    await f.page.locator('summary').click();
     assert.equal(await f.page.locator('input').count(), 0);
     assert.doesNotMatch(await f.page.locator('main').innerText(), /paste|clipboard|Copy invitation/i);
     assert.equal(await f.page.getByRole('link', { name: 'Open LFG Preview to review and join' }).getAttribute('href'), 'lfg-preview://invite/ABC123');

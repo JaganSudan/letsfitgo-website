@@ -41,7 +41,7 @@ export default function InviteAppOpen({ token, appName, joinable }: {
     <div className="space-y-3">
       {permission.status === "enabled" ? (
         <a
-          className="block rounded-xl bg-blue-600 text-white p-3 font-semibold"
+          className="block rounded-xl border border-gray-300 text-gray-900 p-3 font-semibold hover:bg-gray-50"
           href={`${APP_SCHEME}://invite/${token.toUpperCase()}`}
           onClick={(event) => { guardAppOpen(event, handoff); }}
         >
