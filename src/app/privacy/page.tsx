@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-gray-600 mb-8">
-            <strong>Last Updated:</strong> August 23, 2026
+            <strong>Last Updated:</strong> October 17, 2026
           </p>
 
           <section className="mb-12">
@@ -53,8 +53,9 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
               <li>Exercise sessions and workout records</li>
               <li>Distance and active calories associated with imported workouts</li>
-              <li>Workout heart rate data</li>
-              <li>Weight data that you authorize Health Connect to share</li>
+              <li>Workout heart rate samples and exercise session timing for Consistency challenges</li>
+              <li>Step totals for Steps challenges</li>
+              <li>Recent resting heart rate used with your saved age to create a challenge scoring profile</li>
             </ul>
 
             <h4 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Garmin Connect</h4>
@@ -97,6 +98,7 @@ export default function PrivacyPolicyPage() {
               <li>To provide and maintain our fitness tracking and challenge services</li>
               <li>To sync your fitness data from connected wearable devices and health platforms</li>
               <li>To display your progress, rankings, and achievements in challenges</li>
+              <li>When you choose Sync Activity, to calculate Steps scores from eligible step totals and Consistency scores from qualifying workout heart-rate evidence. LFG sends the required evidence to its server, saves your scoring profile and resulting challenge progress, and keeps incomplete reads from overwriting accepted scores.</li>
               <li>To enable social features, including challenging friends and sharing progress</li>
               <li>To send push notifications about challenge updates and friend activities</li>
               <li>To improve our app and develop new features</li>
@@ -131,7 +133,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-xl font-semibold text-gray-900 mb-3 mt-6">5.1 Wearable Device Integrations</h3>
             <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
               <li><strong>Apple HealthKit:</strong> We access health and fitness data from your Apple devices. You control which data types to share through your iOS settings.</li>
-              <li><strong>Health Connect:</strong> We access the Android health and fitness data types listed above only after you connect Health Connect and grant access. You can review or revoke access in Health Connect settings.</li>
+              <li><strong>Health Connect:</strong> Workout import and challenge activity sync are optional. We access only the data types you grant for the feature you use, after you connect Health Connect or choose Sync Activity for an eligible challenge. You can review or revoke access in Health Connect settings. Revoking access stops future reads but does not delete previously imported workouts or saved challenge scores; use the account deletion controls or contact support to request deletion. Health Connect data is not used for advertising or sold.</li>
               <li><strong>Garmin Connect:</strong> We access your Garmin activity, health, and wellness data through the Garmin Connect API. Your use of Garmin services is also subject to Garmin&apos;s Privacy Policy.</li>
               <li><strong>Fitbit:</strong> We access your Fitbit activity and health data. Your use of Fitbit services is also subject to Fitbit&apos;s Privacy Policy.</li>
               <li><strong>Whoop:</strong> We access your Whoop strain, recovery, and sleep data. Your use of Whoop services is also subject to Whoop&apos;s Privacy Policy.</li>
